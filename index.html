@@ -1,0 +1,1382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>CETL | Inter American University – San Germán Campus</title>
+  <link rel="icon" type="image/png" href="img/cetl-logo.png" />
+  <link rel="apple-touch-icon" href="img/cetl-logo.png" />
+  <meta name="description" content="Center for Excellence in Teaching and Learning (CETL) — Inter American University of Puerto Rico, San Germán Campus." />
+
+  <style>
+    :root{
+      --brand: #007B5F;
+      --brand-2: #FED141;
+      --gold: #85714D;
+      --bg: #FFFFFF;
+      --text: #101828;
+      --muted: #475467;
+      --card: #F8FAFC;
+      --border: #E4E7EC;
+      --focus: #1D4ED8;
+      --success: #16A34A;
+
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(16,24,40,.08);
+      --maxw: 1100px;
+
+      --step--1: clamp(.95rem, .90rem + .2vw, 1.00rem);
+      --step-0:  clamp(1.05rem, 1.00rem + .3vw, 1.15rem);
+      --step-1:  clamp(1.25rem, 1.10rem + .8vw, 1.55rem);
+      --step-2:  clamp(1.60rem, 1.30rem + 1.2vw, 2.10rem);
+      --step-3:  clamp(2.00rem, 1.60rem + 1.7vw, 2.70rem);
+    }
+    [data-theme="dark"]{
+      --bg: #0B1220;
+      --text: #F2F4F7;
+      --muted: #A4B0C0;
+      --card: #0F1B2E;
+      --border: #22324D;
+      --shadow: 0 10px 30px rgba(0,0,0,.30);
+      --focus: #60A5FA;
+    }
+    [data-contrast="high"]{
+      --bg: #000000;
+      --text: #FFFFFF;
+      --muted: #E5E7EB;
+      --card: #0B0B0B;
+      --border: #FFFFFF;
+      --brand: #007B5F;
+      --brand-2: #FED141;
+      --gold: #85714D;
+      --focus: #FDE047;
+    }
+
+    *{ box-sizing: border-box; }
+    html{ scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      *{ animation: none !important; transition: none !important; }
+    }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: var(--step-0);
+    }
+    a{ color: inherit; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible, select:focus-visible{
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    .skip-link{
+      position:absolute; left:-999px; top:10px;
+      background: var(--text); color: var(--bg);
+      padding:.6rem .9rem; border-radius:10px; z-index:9999;
+    }
+    .skip-link:focus{ left:10px; }
+
+    .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 1rem; }
+    .sr-only{
+      position:absolute; width:1px;height:1px; padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+    }
+
+    header{
+      position: sticky; top: 0; z-index: 50;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 1rem; padding: .75rem 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:.75rem; min-width: 240px;
+    }
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background:
+        radial-gradient(60% 60% at 30% 30%, color-mix(in srgb, var(--brand-2) 60%, transparent), transparent 70%),
+        linear-gradient(135deg, var(--brand), color-mix(in srgb, var(--brand) 40%, #000));
+      box-shadow: var(--shadow);
+      flex: 0 0 auto;
+    }
+    
+    
+    .logo-img{
+      height: 42px;
+      width: auto;
+      max-width: 200px;
+      border-radius: 12px;
+      object-fit: contain;
+      box-shadow: var(--shadow);
+      flex: 0 0 auto;
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      border: 1px solid var(--border);
+      padding: 4px;
+    }
+.brand h1{ margin:0; font-size:1rem; line-height:1.2; }
+    .brand p{ margin:.1rem 0 0; font-size: var(--step--1); color: var(--muted); }
+
+    nav ul{
+      list-style:none; display:flex; gap:.65rem;
+      padding:0;margin:0; flex-wrap: wrap; justify-content:flex-end;
+    }
+    nav a{
+      display:inline-block; text-decoration:none;
+      padding:.5rem .7rem; border-radius:999px;
+      border:1px solid transparent;
+      color: var(--muted); font-size: var(--step--1);
+    }
+    nav a:hover{
+      border-color: var(--border);
+      color: var(--text);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+    }
+
+    .tools{
+      display:flex; gap:.5rem; align-items:center;
+      flex-wrap: wrap; justify-content:flex-end;
+    }
+    .btn{
+      appearance:none; border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 65%, transparent);
+      color: var(--text);
+      padding:.45rem .65rem; border-radius:12px;
+      cursor:pointer; font-size: var(--step--1);
+    }
+    .btn:hover{ border-color: color-mix(in srgb, var(--border) 50%, var(--text)); }
+    .btn[aria-pressed="true"]{
+      border-color: color-mix(in srgb, var(--brand) 60%, var(--border));
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 18%, transparent);
+    }
+    .btn-group{ display:flex; gap:.5rem; align-items:center; }
+
+    .hero{ padding: 2.2rem 0 1.2rem; }
+    .hero-grid{
+      display:grid; grid-template-columns: 1.2fr .8fr;
+      gap: 1.2rem; align-items: stretch;
+    }
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .brand{ min-width:auto; }
+    }
+    .headline{
+      border:1px solid var(--border);
+      background:
+        radial-gradient(600px 220px at 10% 15%, color-mix(in srgb, var(--brand) 18%, transparent), transparent 60%),
+        radial-gradient(500px 200px at 85% 25%, color-mix(in srgb, var(--brand-2) 16%, transparent), transparent 55%),
+        linear-gradient(180deg, color-mix(in srgb, var(--card) 65%, transparent), transparent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+      overflow:hidden;
+    }
+    .headline h2{ margin:0 0 .35rem; font-size: var(--step-3); letter-spacing:-0.02em; }
+    .headline p{ margin:0 0 1rem; color: var(--muted); max-width:70ch; }
+    .cta{ display:flex; gap:.7rem; flex-wrap:wrap; margin-top:.9rem; }
+    .cta a{
+      text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:.5rem;
+      padding:.65rem .9rem;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+      font-weight: 700;
+    }
+    .cta a.primary{
+      background: var(--brand);
+      border-color: color-mix(in srgb, var(--brand) 70%, #000);
+      color:#fff;
+    }
+    .cta a.primary:hover{ filter: brightness(1.05); }
+    .cta a:hover{ border-color: color-mix(in srgb, var(--border) 50%, var(--text)); }
+
+    .panel{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 70%, transparent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem;
+    }
+    .panel h3{ margin:0 0 .65rem; font-size: var(--step-1); }
+    .chips{
+      display:flex; flex-wrap:wrap; gap:.5rem;
+      margin:.5rem 0 0; padding:0; list-style:none;
+    }
+    .chip{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      padding:.35rem .55rem;
+      border-radius: 999px;
+      font-size: var(--step--1);
+      color: var(--muted);
+    }
+
+    section{ padding: 1.4rem 0; }
+    .sec-head{
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap: 1rem; margin-bottom: .9rem;
+    }
+    .sec-head h2{ margin:0; font-size: var(--step-2); letter-spacing:-0.01em; }
+    .sec-head p{ margin:0; color: var(--muted); max-width:70ch; font-size: var(--step--1); }
+
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 900px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+    .card h3{ margin:0 0 .35rem; font-size: var(--step-1); }
+    .card p{ margin:0; color: var(--muted); font-size: var(--step--1); }
+    .list{ margin:.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: var(--step--1); }
+
+    /* Workshops */
+    .toolbar{
+      display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;
+      justify-content:space-between;
+      margin-bottom: .9rem;
+    }
+    .field{
+      display:flex; flex-direction:column; gap:.25rem;
+      min-width: 220px;
+    }
+    label{ font-weight: 800; font-size: var(--step--1); }
+    select, input, textarea{
+      width: 100%;
+      padding: .65rem .7rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .workshops{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 900px){ .workshops{ grid-template-columns: 1fr; } }
+
+    .workshop{
+      display:flex; gap:.9rem; align-items:flex-start;
+      padding:.95rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+    }
+    .date{
+      flex:0 0 auto;
+      width: 72px;
+      text-align:center;
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--brand) 14%, transparent);
+      border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--border));
+      padding: .55rem .4rem;
+    }
+    .date strong{ display:block; font-size: 1.15rem; }
+    .date span{ display:block; font-size: .85rem; color: var(--muted); }
+    .workshop h3{ margin:0 0 .2rem; font-size: 1.05rem; }
+    .workshop p{ margin:0; color: var(--muted); font-size: var(--step--1); }
+    .meta{
+      display:flex; flex-wrap:wrap; gap:.45rem;
+      margin-top:.45rem;
+    }
+    .tag{
+      border:1px solid var(--border);
+      border-radius: 999px;
+      padding:.25rem .55rem;
+      font-size: .9rem;
+      color: var(--muted);
+      background: color-mix(in srgb, var(--card) 65%, transparent);
+    }
+
+    /* Form */
+    form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .9rem;
+      align-items: start;
+    }
+    @media (max-width: 900px){ form{ grid-template-columns: 1fr; } }
+    textarea{ min-height: 130px; resize: vertical; }
+    .help{ color: var(--muted); font-size: var(--step--1); margin: .25rem 0 0; }
+    .full{ grid-column: 1 / -1; }
+    .submit{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:.5rem;
+      padding: .75rem .95rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--brand);
+      color:#fff; font-weight: 900;
+      cursor:pointer; width: fit-content;
+    }
+    .submit:hover{ filter: brightness(1.05); }
+    .note{
+      border-left: 4px solid var(--brand);
+      padding: .55rem .75rem;
+      background: color-mix(in srgb, var(--brand) 10%, transparent);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: var(--step--1);
+    }
+
+    /* FAQ */
+    details{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      border-radius: 16px;
+      padding: .85rem .95rem;
+      box-shadow: var(--shadow);
+    }
+    details + details{ margin-top: .8rem; }
+    summary{ cursor:pointer; font-weight: 900; }
+    details p{ margin:.55rem 0 0; color: var(--muted); font-size: var(--step--1); }
+
+    footer{
+      margin-top: 1.4rem;
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 0 1.6rem;
+      color: var(--muted);
+      font-size: var(--step--1);
+    }
+    footer a{ text-decoration:none; border-bottom: 1px dashed var(--border); }
+    footer a:hover{ border-bottom-color: var(--text); }
+
+    html[data-font="1"]{ font-size: 100%; }
+    html[data-font="2"]{ font-size: 106%; }
+    html[data-font="3"]{ font-size: 112%; }
+
+    /* ===== Team (directorio de personas) ===== */
+    .team-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 900px){
+      .team-grid{ grid-template-columns: 1fr; }
+    }
+    .person-card{
+      border:1px solid var(--border);
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem;
+    }
+    .person-top{
+      display:flex;
+      gap: .85rem;
+      align-items:center;
+    }
+    .avatar{
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      flex: 0 0 auto;
+    }
+    .person-name{
+      margin:0;
+      font-size: 1.05rem;
+      line-height: 1.2;
+    }
+    .person-role{
+      margin:.15rem 0 0;
+      color: var(--muted);
+      font-size: var(--step--1);
+    }
+    .person-links{
+      margin-top: .75rem;
+      display:grid;
+      gap:.35rem;
+      color: var(--muted);
+      font-size: var(--step--1);
+    }
+    .person-links a{
+      text-decoration:none;
+      border-bottom: 1px dashed var(--border);
+    }
+    .person-links a:hover{ border-bottom-color: var(--text); }
+
+    .person-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.45rem;
+      margin-top:.75rem;
+    }
+
+    .person-card details{
+      margin-top:.8rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .65rem .75rem;
+      background: color-mix(in srgb, var(--bg) 70%, transparent);
+      box-shadow: none;
+    }
+    .person-card summary{
+      font-weight: 900;
+      cursor: pointer;
+      list-style: none;
+    }
+    .person-card summary::-webkit-details-marker{ display:none; }
+    .person-card .detail-text{
+      margin:.5rem 0 0;
+      color: var(--muted);
+      font-size: var(--step--1);
+    }
+  
+    /* ===== Rotating Banners (below main menu) ===== */
+    .banner-strip{
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+    }
+    .banner-wrap{ max-width: var(--maxw); margin: 0 auto; padding: .85rem 1rem; }
+    .carousel{
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+    
+      isolation: isolate;
+    }
+    .slides{ position: relative; min-height: 220px; 
+      z-index: 1;
+    }
+    .slide{ display: none; align-items: stretch; }
+    .slide[aria-hidden="false"]{ display: flex; }
+    .slide img{ width: 100%; height: auto; display: block; 
+      position: relative;
+      z-index: 0;
+    }
+
+    .slide-content{
+      position: absolute;
+      inset: 0;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 1rem;
+      padding: 1rem;
+      background: linear-gradient(180deg, transparent 35%, rgba(0,0,0,.55) 100%);
+      color: #fff;
+    
+      pointer-events: none;
+      z-index: 2;
+    }
+    .slide-content h3{ margin:0; font-size: 1.25rem; }
+    .slide-content p{ margin:.25rem 0 0; max-width: 70ch; font-size: .98rem; opacity: .92; }
+
+    .slide-cta{
+      flex: 0 0 auto;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:.65rem .85rem;
+      border-radius: 14px;
+      background: var(--brand-2);
+      color: #103;
+      border: 1px solid color-mix(in srgb, var(--brand-2) 60%, #000);
+      text-decoration: none;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .slide-cta:hover{ filter: brightness(1.03); }
+
+    .carousel-controls{
+      position: absolute;
+      top: .65rem;
+      right: .65rem;
+      display:flex;
+      gap:.5rem;
+      align-items:center;
+    
+      z-index: 6;
+      pointer-events: auto;
+    }
+    .dotbar{
+      position:absolute;
+      left: .85rem;
+      top: .75rem;
+      display:flex;
+      gap:.35rem;
+      align-items:center;
+    
+      z-index: 6;
+      pointer-events: auto;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.75);
+      background: rgba(255,255,255,.28);
+      cursor:pointer;
+    }
+    .dot[aria-current="true"]{ background: rgba(255,255,255,.95); }
+    .ctl{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.55);
+      background: rgba(0,0,0,.30);
+      color: #fff;
+      padding: .38rem .55rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: .95rem;
+    }
+    .ctl:hover{ background: rgba(0,0,0,.40); }
+
+  
+    /* ===== Service Request send options (Outlook/Gmail/Mailto + Copy) ===== */
+    .send-options{
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in srgb, var(--card) 75%, transparent);
+      box-shadow: var(--shadow);
+    }
+    .send-options[hidden]{ display:none; }
+    .send-actions{
+      display:flex;
+      flex-wrap: wrap;
+      gap:.6rem;
+      margin-top:.65rem;
+    }
+    .btn-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:.65rem .85rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--bg) 85%, transparent);
+      text-decoration:none;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .btn-link.primary{
+      background: var(--brand);
+      color: #fff;
+      border-color: color-mix(in srgb, var(--brand) 70%, #000);
+    }
+    .btn-link.secondary{
+      background: var(--brand-2);
+      color: #103;
+      border-color: color-mix(in srgb, var(--brand-2) 70%, #000);
+    }
+    .btn-link:hover{ filter: brightness(1.03); }
+    .send-preview{
+      margin-top: .75rem;
+      padding: .75rem;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
+      max-height: 220px;
+      overflow:auto;
+      white-space: pre-wrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: .92rem;
+    }
+    .sr-note{ margin: .25rem 0 0; opacity: .85; }
+
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Skip to main content</a>
+
+  <header>
+    <div class="wrap topbar" role="banner">
+      <div class="brand">
+        <img class="logo-img" src="img/cetl-logo.png" alt="Center for Excellence in Teaching and Learning (CETL) logo" width="42" height="42" loading="eager" />
+        <div>
+          <h1>Center for Excellence in Teaching and Learning</h1>
+          <p>Inter American University of Puerto Rico • San Germán Campus</p>
+        </div>
+      </div>
+
+      <div class="tools" aria-label="Accessibility controls">
+        <div class="btn-group" role="group" aria-label="Font size">
+          <button class="btn" id="fontDown" type="button" aria-label="Decrease font size">A−</button>
+          <button class="btn" id="fontUp" type="button" aria-label="Increase font size">A+</button>
+        </div>
+        <button class="btn" id="contrastToggle" type="button" aria-pressed="false">High contrast</button>
+        <button class="btn" id="themeToggle" type="button" aria-pressed="false">Dark mode</button>
+      </div>
+    </div>
+
+    <div class="wrap" style="padding-bottom:.7rem;">
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#quienes">About</a></li>
+          <li><a href="#equipo">Team</a></li>
+          <li><a href="#service-request">Service Request</a></li>
+          <li><a href="#workshops">Workshops</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="banner-strip" aria-label="Announcements">
+    <div class="banner-wrap">
+      <div class="carousel" role="region" aria-roledescription="carousel" aria-label="CETL rotating banners">
+        <div class="dotbar" aria-label="Choose banner">
+          <button class="dot" type="button" aria-label="Show banner 1" aria-current="true" data-dot="0"></button>
+          <button class="dot" type="button" aria-label="Show banner 2" aria-current="false" data-dot="1"></button>
+          <button class="dot" type="button" aria-label="Show banner 3" aria-current="false" data-dot="2"></button>
+        </div>
+
+        <div class="carousel-controls" aria-label="Banner controls">
+          <button class="ctl" type="button" id="bannerPrev" aria-label="Previous banner">‹</button>
+          <button class="ctl" type="button" id="bannerPause" aria-pressed="false" aria-label="Pause rotation">Pause</button>
+          <button class="ctl" type="button" id="bannerNext" aria-label="Next banner">›</button>
+        </div>
+
+        <div class="slides" id="bannerSlides" aria-live="off">
+          <figure class="slide" aria-hidden="false">
+            <img src="img/banner-1.png" alt="Request Faculty Support: Consultations on course design, alignment, and student experience." loading="eager" />
+            <div class="slide-content">
+              <div>
+                <h3>Request Faculty Support</h3>
+                <p>Consultations on course design, alignment, and student experience.</p>
+              </div>
+              <a class="slide-cta" href="#service-request">Go to Service Request</a>
+            </div>
+          </figure>
+
+          <figure class="slide" aria-hidden="true">
+            <img src="img/banner-2.png" alt="Upcoming Workshops: Hands-on sessions on accessibility, rubrics, and active learning strategies." loading="lazy" />
+            <div class="slide-content">
+              <div>
+                <h3>Upcoming Workshops</h3>
+                <p>Hands-on sessions on accessibility, rubrics, and active learning strategies.</p>
+              </div>
+              <a class="slide-cta" href="#workshops">View Workshops</a>
+            </div>
+          </figure>
+
+          <figure class="slide" aria-hidden="true">
+            <img src="img/banner-3.png" alt="Accessible Course Design: Quick checks for headings, contrast, links, and multimedia." loading="lazy" />
+            <div class="slide-content">
+              <div>
+                <h3>Accessible Course Design</h3>
+                <p>Quick checks for headings, contrast, links, and multimedia.</p>
+              </div>
+              <a class="slide-cta" href="#resources">Open Resources</a>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <main id="contenido" class="wrap" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="headline">
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem;">
+            <img id="hero-brand-logo" src="img/cetl-logo.png" alt="Center for Excellence in Teaching and Learning (CETL) logo" style="height:46px;width:auto;max-width:260px;border-radius:12px;border:1px solid var(--border);background:color-mix(in srgb, var(--bg) 85%, transparent);padding:6px;box-shadow: var(--shadow);" loading="eager" />
+          </div>
+          <h2 id="hero-title">Accessible, measurable teaching innovation.</h2>
+          <p>
+            CETL supports faculty with consultations, workshops, and resources to design clear, inclusive, and well-aligned learning experiences.
+          </p>
+
+          <div class="cta" role="group" aria-label="Acciones principales">
+            <a class="primary" href="#service-request">Request support</a>
+            <a href="#workshops">View workshops</a>
+            <a href="#resources">Open resources</a>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="Focus areas">
+          <h3>Focus areas</h3>
+          <ul class="chips">
+            <li class="chip">Instructional design</li>
+            <li class="chip">Accessibility (WAVE / WCAG)</li>
+            <li class="chip">Assessment & Rubrics</li>
+            <li class="chip">Active learning</li>
+            <li class="chip">Educational technology</li>
+            <li class="chip">Continuous improvement</li>
+          </ul>
+          <p class="help" style="margin-top:.85rem;">
+            Ready-to-publish template: replace names, emails, and resource links.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="quienes" aria-labelledby="quienes-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="quienes-title">About</h2>
+          <p>A faculty support hub to improve quality, consistency, and accessibility across learning experiences.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Mission</h3>
+          <p>Strengthen teaching through practical support, reusable resources, and results-oriented training.</p>
+        </article>
+
+        <article class="card">
+          <h3>Vision</h3>
+          <p>Be an institutional leader in educational excellence with measurable impact on student learning.</p>
+        </article>
+
+        <article class="card">
+          <h3>How we work</h3>
+          <p>Consultations, design clinics, material reviews, workshops, and a repository of reusable guides.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="equipo" aria-labelledby="equipo-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="equipo-title">Team</h2>
+          <p>CETL directory (accessible, minimal, and easy to update).</p>
+        </div>
+      </div>
+
+      <div id="teamGrid" class="team-grid" role="list" aria-label="Miembros del equipo"></div>
+
+      <p class="help" style="margin-top:.8rem;">
+        Upload square photos (e.g., 600×600) to <strong>img/</strong> and update the TEAM list in the script.
+      </p>
+    </section>
+
+    <section id="service-request" aria-labelledby="solicitud-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="solicitud-title">Service Request</h2>
+          <p>Demo form. Connect it to your ticketing/email system when you publish.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="note" role="status" aria-live="polite" id="formStatus">
+          Suggested response time: 24–72 business hours. Adjust to your process.
+        </p>
+
+        <form id="serviceForm" novalidate aria-describedby="serviceHelp">
+          <p class="sr-only" id="serviceHelp">
+            Complete the required fields. If information is missing, the form will indicate what needs attention.
+          </p>
+
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name" required />
+            <p class="help">Required field.</p>
+          </div>
+
+          <div>
+            <label for="email">Institutional email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+            <p class="help">Required field (email format).</p>
+          </div>
+
+          <div>
+            <label for="requestType">Service type</label>
+            <select id="requestType" name="requestType" required>
+              <option value="">Select an option</option>
+              <option value="diseno">Instructional design (estructura, objetivos, alineación)</option>
+              <option value="accesibilidad">Accessibility (WAVE/WCAG, materials, multimedia)</option>
+              <option value="evaluacion">Assessment (rubrics, instruments, feedback)</option>
+              <option value="tecnologia">Educational technology (tools, activities, resources)</option>
+              <option value="taller">Department workshop request</option>
+              <option value="otro">Other</option>
+            </select>
+            <p class="help">Required field.</p>
+          </div>
+
+          <div>
+            <label for="assignee">Assign to (optional)</label>
+            <select id="assignee" name="assignee">
+              <option value="">Any CETL team member</option>
+            </select>
+            <p class="help">Optional. If not selected, CETL will assign the request.</p>
+          </div>
+
+          <div>
+            <label for="modality">Modality</label>
+            <select id="modality" name="modality">
+              <option value="">Select</option>
+              <option value="presencial">In-person</option>
+              <option value="hibrido">Hybrid</option>
+              <option value="enlinea">Online</option>
+            </select>
+            <p class="help">Optional (recommended).</p>
+          </div>
+
+          <div>
+            <label for="course">Course (code / title)</label>
+            <input id="course" name="course" />
+            <p class="help">Optional. Example: ABCD1234 – Course name.</p>
+          </div>
+
+          <div>
+            <label for="deadline">Deadline</label>
+            <input id="deadline" name="deadline" type="date" />
+            <p class="help">Optional. Helps with prioritization.</p>
+          </div>
+
+          <div class="full">
+            <label for="details">Request details</label>
+            <textarea id="details" name="details" required></textarea>
+            <p class="help">Required field. Incluye el objetivo, qué quieres lograr y cualquier contexto importante.</p>
+          </div>
+
+          <div class="full" style="display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;">
+            <button class="submit" type="submit">Submit request</button>
+            <p class="help" style="margin:0;">
+              Alternative: <strong>ucan_ppoha@intersg.edu</strong> (replace this email).
+            </p>
+          </div>
+        </form>
+
+          <div id="sendOptions" class="send-options" hidden aria-live="polite">
+            <strong>Send your request to:</strong> <span id="sendEmail">ucan_ppoha@intersg.edu</span>
+            <p class="sr-note">If the email window does not open automatically, use one of the buttons below.</p>
+            <div class="send-actions" aria-label="Send options">
+              <a id="sendOutlook" class="btn-link primary" href="#" target="_blank" rel="noopener">Open in Outlook Web</a>
+              <a id="sendGmail" class="btn-link secondary" href="#" target="_blank" rel="noopener">Open in Gmail</a>
+              <a id="sendMailApp" class="btn-link" href="#">Open in Mail app</a>
+              <button id="copyRequest" class="btn-link" type="button">Copy message</button>
+            </div>
+            <div id="sendPreview" class="send-preview" aria-label="Email preview"></div>
+          </div>
+
+      </div>
+    </section>
+
+    <section id="workshops" aria-labelledby="talleres-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="talleres-title">Workshops</h2>
+          <p>Editable schedule with filters (examples). Duplicate cards and adjust topics/dates.</p>
+        </div>
+      </div>
+
+      <div class="toolbar" role="region" aria-label="Workshop filters">
+        <div class="field">
+          <label for="filterModality">Filter by modality</label>
+          <select id="filterModality" name="filterModality">
+            <option value="all">All</option>
+            <option value="presencial">In-person</option>
+            <option value="hibrido">Hybrid</option>
+            <option value="enlinea">Online</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="filterTopic">Search by topic</label>
+          <input id="filterTopic" name="filterTopic" placeholder="e.g., accessibility, rubrics, activities..." />
+        </div>
+      </div>
+
+      <div class="workshops" id="workshopList" role="list">
+        <article class="workshop" role="listitem" data-modality="hibrido" data-topic="accesibilidad wave wcag contenido">
+          <div class="date" aria-label="Date: February 12"><strong>12</strong><span>Feb</span></div>
+          <div>
+            <h3>Accessible design: WAVE + best practices</h3>
+            <p>Quick checklist for pages and documents: contrast, headings, links, alt text, and multimedia.</p>
+            <div class="meta" aria-label="Etiquetas del taller">
+              <span class="tag">Hybrid</span><span class="tag">Accesibilidad</span><span class="tag">Hands-on</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="workshop" role="listitem" data-modality="enlinea" data-topic="objetivos alineacion rubricas evaluacion">
+          <div class="date" aria-label="Date: February 26"><strong>26</strong><span>Feb</span></div>
+          <div>
+            <h3>Alignment: objectives → activities → assessment</h3>
+            <p>Build a simple alignment map so your course stays consistent and easy to follow.</p>
+            <div class="meta" aria-label="Etiquetas del taller">
+              <span class="tag">Online</span><span class="tag">Instructional design</span><span class="tag">Rubrics</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="workshop" role="listitem" data-modality="presencial" data-topic="aprendizaje activo actividades participacion">
+          <div class="date" aria-label="Date: March 12"><strong>12</strong><span>Mar</span></div>
+          <div>
+            <h3>Active learning sin complicarte</h3>
+            <p>Simple strategies: micro-challenges, guided discussions, formative checks, and participation.</p>
+            <div class="meta" aria-label="Etiquetas del taller">
+              <span class="tag">In-person</span><span class="tag">Strategies</span><span class="tag">Engagement</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="workshop" role="listitem" data-modality="hibrido" data-topic="multimedia guias video contenido claro">
+          <div class="date" aria-label="Date: March 26"><strong>26</strong><span>Mar</span></div>
+          <div>
+            <h3>Clear content: guides, videos, and structure</h3>
+            <p>Reduce repeat questions with clear instructions, templates, and short resources.</p>
+            <div class="meta" aria-label="Etiquetas del taller">
+              <span class="tag">Hybrid</span><span class="tag">Multimedia</span><span class="tag">Structure</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="help" id="workshopCount" aria-live="polite" style="margin-top:.8rem;"></p>
+    </section>
+
+    <section id="resources" aria-labelledby="repositorio-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="repositorio-title">Resources de guías y manuales</h2>
+          <p>Replace the sample links with real URLs (Drive/SharePoint/OneDrive/Website).</p>
+        </div>
+      </div>
+
+      <div class="grid" role="list">
+        <article class="card" role="listitem">
+          <h3>Accesibilidad</h3>
+          <p>Guides for accessible content: contrast, headings, links, alt text, and multimedia.</p>
+          <ul class="list">
+            <li><a href="#" aria-label="Open accessibility guide (sample link)">Quick guide (PDF)</a></li>
+            <li><a href="#" aria-label="Open WAVE checklist (sample link)">Checklist WAVE</a></li>
+            <li><a href="#" aria-label="Open accessible multimedia guide (sample link)">Accessible multimedia</a></li>
+          </ul>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Instructional design</h3>
+          <p>Templates and examples for modules, measurable objectives, and aligned assessments.</p>
+          <ul class="list">
+            <li><a href="#" aria-label="Download module template (sample link)">Module template</a></li>
+            <li><a href="#" aria-label="Open objective bank (sample link)">Objective bank</a></li>
+            <li><a href="#" aria-label="Open alignment map (sample link)">Alignment map</a></li>
+          </ul>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Assessment & Rubrics</h3>
+          <p>Rubric models, criteria examples, and guides for effective feedback.</p>
+          <ul class="list">
+            <li><a href="#" aria-label="Open rubrics guide (sample link)">Rubrics guide</a></li>
+            <li><a href="#" aria-label="Download rubric examples (sample link)">Examples (Word/PDF)</a></li>
+            <li><a href="#" aria-label="Open feedback guide (sample link)">Feedback</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-title">
+      <div class="sec-head">
+        <div>
+          <h2 id="faq-title">FAQ frecuentes</h2>
+          <p>Quick answers to support faculty and reduce repeated questions.</p>
+        </div>
+      </div>
+
+      <details>
+        <summary>Can I request a workshop for my department?</summary>
+        <p>Sí. En “Service type” selecciona “Solicitud de taller” y explica el tema, público y fecha sugerida.</p>
+      </details>
+
+      <details>
+        <summary>Does the repository include editable templates?</summary>
+        <p>Yes. The goal is to provide “ready-to-use” documents (Word/PDF/HTML) so you don’t start from scratch.</p>
+      </details>
+
+      <details>
+        <summary>How are requests assigned?</summary>
+        <p>Puedes elegir una persona en el formulario o dejarlo en “Any CETL team member” para asignación interna.</p>
+      </details>
+    </section>
+
+    <footer role="contentinfo">
+      <div class="wrap" style="padding:0;">
+        <p style="margin:.25rem 0;">
+          © <span id="year"></span> CETL — San Germán Campus.
+        </p>
+        <p style="margin:.25rem 0;">
+          <a href="#contenido">Back to top</a> ·
+          <a href="#" aria-label="Accessibility (enlace de ejemplo)">Accesibilidad</a> ·
+          <a href="#" aria-label="Privacy (enlace de ejemplo)">Privacidad</a>
+        </p>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    
+    // ===== Service Request email target (no backend) =====
+    const SERVICE_EMAIL = "ucan_ppoha@intersg.edu";
+
+    function buildEmailPayload(){
+      const reqTypeText = document.getElementById("requestType").selectedOptions[0]?.textContent || "Service Request";
+      const assigneeText = document.getElementById("assignee").selectedOptions[0]?.textContent || "Unassigned";
+      const modalityText = document.getElementById("modality").selectedOptions[0]?.textContent || "";
+      const courseText = document.getElementById("course").value || "";
+      const deadlineText = document.getElementById("deadline").value || "";
+      const detailsText = document.getElementById("details").value || "";
+
+      const subject = `CETL Service Request — ${reqTypeText}`;
+      const body =
+`CETL Service Request
+
+Name: ${document.getElementById("name").value}
+Email: ${document.getElementById("email").value}
+Service type: ${reqTypeText}
+Assign to: ${assigneeText}
+Modality: ${modalityText}
+Course: ${courseText}
+Deadline: ${deadlineText}
+
+Details:
+${detailsText}
+`;
+      return { subject, body };
+    }
+
+    function setSendOptions(subject, body){
+      const sendOptions = document.getElementById("sendOptions");
+      const preview = document.getElementById("sendPreview");
+      const outlook = document.getElementById("sendOutlook");
+      const gmail = document.getElementById("sendGmail");
+      const mailApp = document.getElementById("sendMailApp");
+      const copyBtn = document.getElementById("copyRequest");
+
+      const encTo = encodeURIComponent(SERVICE_EMAIL);
+      const encSub = encodeURIComponent(subject);
+      const encBody = encodeURIComponent(body);
+
+      // Outlook Web compose deep link (works best for Office 365 users)
+      outlook.href = `https://outlook.office.com/mail/deeplink/compose?to=${encTo}&subject=${encSub}&body=${encBody}`;
+
+      // Gmail compose link (requires user to be signed in)
+      gmail.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encTo}&su=${encSub}&body=${encBody}`;
+
+      // Mail app (mailto)
+      mailApp.href = `mailto:${SERVICE_EMAIL}?subject=${encSub}&body=${encBody}`;
+
+      preview.textContent = `To: ${SERVICE_EMAIL}\nSubject: ${subject}\n\n${body}`;
+      sendOptions.hidden = false;
+
+      copyBtn.onclick = async () => {
+        try {
+          await navigator.clipboard.writeText(preview.textContent);
+          copyBtn.textContent = "Copied!";
+          setTimeout(() => copyBtn.textContent = "Copy message", 1500);
+        } catch (err) {
+          // Fallback
+          const ta = document.createElement("textarea");
+          ta.value = preview.textContent;
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          copyBtn.textContent = "Copied!";
+          setTimeout(() => copyBtn.textContent = "Copy message", 1500);
+        }
+      };
+    }
+
+
+const root = document.documentElement;
+    const body = document.body;
+
+    const state = {
+      theme: localStorage.getItem("citl_theme") || "light",
+      contrast: localStorage.getItem("citl_contrast") || "normal",
+      font: localStorage.getItem("citl_font") || "1",
+    };
+
+    function applyState(){
+      body.dataset.theme = state.theme === "dark" ? "dark" : "light";
+      body.dataset.contrast = state.contrast === "high" ? "high" : "normal";
+      root.dataset.font = state.font;
+
+      const themeBtn = document.getElementById("themeToggle");
+      const contrastBtn = document.getElementById("contrastToggle");
+
+      themeBtn.setAttribute("aria-pressed", state.theme === "dark" ? "true" : "false");
+      contrastBtn.setAttribute("aria-pressed", state.contrast === "high" ? "true" : "false");
+
+      themeBtn.textContent = state.theme === "dark" ? "Light mode" : "Dark mode";
+      contrastBtn.textContent = state.contrast === "high" ? "Normal contrast" : "High contrast";
+    }
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      state.theme = (state.theme === "dark") ? "light" : "dark";
+      localStorage.setItem("citl_theme", state.theme);
+      applyState();
+    });
+
+    document.getElementById("contrastToggle").addEventListener("click", () => {
+      state.contrast = (state.contrast === "high") ? "normal" : "high";
+      localStorage.setItem("citl_contrast", state.contrast);
+      applyState();
+    });
+
+    document.getElementById("fontUp").addEventListener("click", () => {
+      state.font = String(Math.min(3, Number(state.font) + 1));
+      localStorage.setItem("citl_font", state.font);
+      applyState();
+    });
+
+    document.getElementById("fontDown").addEventListener("click", () => {
+      state.font = String(Math.max(1, Number(state.font) - 1));
+      localStorage.setItem("citl_font", state.font);
+      applyState();
+    });
+
+    // ===== Team
+    const TEAM = [
+      {
+        name: "Dr. Eduardo García",
+        role: "Curriculum Design",
+        phoneDisplay: "787-264-1912 Ext. 7795",
+        phoneTel: "+17872641912",
+        email: "eduardo_garcia@sangerman.inter.edu",
+        area: "Proyecto UCAN, PPOHA",
+        location: "Edificio Jorge A. Farinacci – Oficina 207",
+        unit: "Escuela de Estudios Graduados e Investigación",
+        photo: "img/eduardo.jpg",
+        highlights: [
+          "Support for module structure and course consistency.",
+          "Alignment of objectives, activities, and assessment.",
+          "Recommendations to improve instructional clarity and the student experience."
+        ]
+      },
+      { name:"First Last", role:"Role / Specialty", phoneDisplay:"787-000-0000 Ext. 0000", phoneTel:"+17870000000", email:"email@inter.edu", area:"Area / Project", location:"Office / Building", unit:"Unit", photo:"", highlights:["Responsibility 1","Responsibility 2","Responsibility 3"] },
+      { name:"First Last", role:"Role / Specialty", phoneDisplay:"787-000-0000 Ext. 0000", phoneTel:"+17870000000", email:"email@inter.edu", area:"Area / Project", location:"Office / Building", unit:"Unit", photo:"", highlights:["Responsibility 1","Responsibility 2","Responsibility 3"] },
+      { name:"First Last", role:"Role / Specialty", phoneDisplay:"787-000-0000 Ext. 0000", phoneTel:"+17870000000", email:"email@inter.edu", area:"Area / Project", location:"Office / Building", unit:"Unit", photo:"", highlights:["Responsibility 1","Responsibility 2","Responsibility 3"] },
+      { name:"First Last", role:"Role / Specialty", phoneDisplay:"787-000-0000 Ext. 0000", phoneTel:"+17870000000", email:"email@inter.edu", area:"Area / Project", location:"Office / Building", unit:"Unit", photo:"", highlights:["Responsibility 1","Responsibility 2","Responsibility 3"] },
+      { name:"First Last", role:"Role / Specialty", phoneDisplay:"787-000-0000 Ext. 0000", phoneTel:"+17870000000", email:"email@inter.edu", area:"Area / Project", location:"Office / Building", unit:"Unit", photo:"", highlights:["Responsibility 1","Responsibility 2","Responsibility 3"] },
+    ];
+
+    function renderTeam(){
+      const grid = document.getElementById("teamGrid");
+      if(!grid) return;
+      grid.innerHTML = "";
+
+      TEAM.forEach(member => {
+        const card = document.createElement("article");
+        card.className = "person-card";
+        card.setAttribute("role","listitem");
+
+        const safePhoto = member.photo || "";
+        const safeAlt = member.name ? `Foto de ${member.name}` : "Foto del integrante";
+
+        card.innerHTML = `
+          <div class="person-top">
+            ${safePhoto
+              ? `<img class="avatar" src="${safePhoto}" alt="${safeAlt}" loading="lazy" />`
+              : `<div class="avatar" aria-hidden="true"></div>`
+            }
+            <div>
+              <h3 class="person-name">${member.name || ""}</h3>
+              <p class="person-role">${member.role || ""}</p>
+            </div>
+          </div>
+
+          <div class="person-links">
+            ${member.phoneTel ? `<div>☎ <a href="tel:${member.phoneTel}">${member.phoneDisplay || "Llamar"}</a></div>` : ""}
+            ${member.email ? `<div>✉ <a href="mailto:${member.email}">${member.email}</a></div>` : ""}
+          </div>
+
+          <div class="person-tags" aria-label="Información adicional">
+            ${member.area ? `<span class="tag">${member.area}</span>` : ""}
+            ${member.location ? `<span class="tag">${member.location}</span>` : ""}
+            ${member.unit ? `<span class="tag">${member.unit}</span>` : ""}
+          </div>
+
+          <details>
+            <summary>View details</summary>
+            <div class="detail-text">
+              ${Array.isArray(member.highlights) && member.highlights.length
+                ? `<ul class="list">${member.highlights.map(h => `<li>${h}</li>`).join("")}</ul>`
+                : `<p class="detail-text">More information coming soon.</p>`
+              }
+            </div>
+          </details>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function populateAssignee(){
+      const select = document.getElementById("assignee");
+      if(!select) return;
+      TEAM.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.email || m.name || "";
+        opt.textContent = `${m.name} — ${m.role}`;
+        select.appendChild(opt);
+      });
+    }
+
+    // ===== Form (demo) validación básica
+    const form = document.getElementById("serviceForm");
+    const status = document.getElementById("formStatus");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const requiredIds = ["name","email","requestType","details"];
+      let ok = true;
+
+      requiredIds.forEach(id => {
+        const el = document.getElementById(id);
+        if(!el.value || !String(el.value).trim()){
+          ok = false;
+          el.setAttribute("aria-invalid", "true");
+        } else {
+          el.removeAttribute("aria-invalid");
+        }
+      });
+
+      if(!ok){
+        status.textContent = "Please review the highlighted required fields before submitting.";
+        status.style.borderLeftColor = "var(--brand)";
+        return;
+      }
+
+      
+      // Build the email payload and show send options
+      const { subject, body } = buildEmailPayload();
+      setSendOptions(subject, body);
+
+      status.textContent = `Validated. Sending options are ready for ${SERVICE_EMAIL}.`;
+      status.style.borderLeftColor = "var(--success)";
+
+      // Try opening Outlook Web automatically (works well when no desktop mail client is configured).
+      const outlookUrl = document.getElementById("sendOutlook").href;
+      const w = window.open(outlookUrl, "_blank", "noopener");
+      if(!w){
+        // Popup blocked: fall back to mail app link (mailto)
+        window.location.href = document.getElementById("sendMailApp").href;
+      }
+});
+
+    // ===== Workshops: filtro por modalidad + búsqueda por tema
+    const filterModality = document.getElementById("filterModality");
+    const filterTopic = document.getElementById("filterTopic");
+    const workshopList = document.getElementById("workshopList");
+    const workshopCount = document.getElementById("workshopCount");
+
+    function applyWorkshopFilters(){
+      const mod = filterModality.value;
+      const q = filterTopic.value.trim().toLowerCase();
+      const items = Array.from(workshopList.querySelectorAll(".workshop"));
+      let visible = 0;
+
+      items.forEach(item => {
+        const itemMod = item.dataset.modality || "";
+        const itemTopic = (item.dataset.topic || "").toLowerCase();
+
+        const matchesMod = (mod === "all") ? true : (itemMod === mod);
+        const matchesTopic = (q === "") ? true : itemTopic.includes(q);
+
+        const show = matchesMod && matchesTopic;
+        item.style.display = show ? "flex" : "none";
+        if(show) visible++;
+      });
+
+      workshopCount.textContent = `Showing ${visible} workshop(s).`;
+    }
+
+    filterModality.addEventListener("change", applyWorkshopFilters);
+    filterTopic.addEventListener("input", applyWorkshopFilters);
+
+    
+    // ===== Rotating banners (10 seconds)
+    const slides = Array.from(document.querySelectorAll("#bannerSlides .slide"));
+    const dots = Array.from(document.querySelectorAll(".dotbar .dot"));
+    const prevBtn = document.getElementById("bannerPrev");
+    const nextBtn = document.getElementById("bannerNext");
+    const pauseBtn = document.getElementById("bannerPause");
+
+    let bannerIndex = 0;
+    let paused = false;
+    const BANNER_INTERVAL_MS = 10000;
+    let bannerTimer = null;
+
+    function showBanner(i){
+      if(!slides.length) return;
+      bannerIndex = (i + slides.length) % slides.length;
+
+      slides.forEach((s, idx) => {
+        const active = idx === bannerIndex;
+        s.setAttribute("aria-hidden", active ? "false" : "true");
+      });
+
+      dots.forEach((d, idx) => {
+        d.setAttribute("aria-current", idx === bannerIndex ? "true" : "false");
+      });
+    }
+
+    function nextBanner(){ showBanner(bannerIndex + 1); }
+    function prevBanner(){ showBanner(bannerIndex - 1); }
+
+    function startBannerTimer(){
+      if(bannerTimer) clearInterval(bannerTimer);
+      bannerTimer = setInterval(() => { if(!paused) nextBanner(); }, BANNER_INTERVAL_MS);
+    }
+
+    function togglePause(){
+      paused = !paused;
+      pauseBtn?.setAttribute("aria-pressed", paused ? "true" : "false");
+      if(pauseBtn) pauseBtn.textContent = paused ? "Play" : "Pause";
+    }
+
+    if(slides.length){
+      nextBtn?.addEventListener("click", () => { nextBanner(); startBannerTimer(); });
+      prevBtn?.addEventListener("click", () => { prevBanner(); startBannerTimer(); });
+      pauseBtn?.addEventListener("click", () => { togglePause(); });
+
+      dots.forEach((d) => {
+        d.addEventListener("click", () => {
+          const idx = Number(d.dataset.dot || "0");
+          showBanner(idx);
+          startBannerTimer();
+        });
+      });
+
+      const carousel = document.querySelector(".carousel");
+      carousel?.addEventListener("mouseenter", () => { paused = true; if(pauseBtn){ pauseBtn.textContent="Play"; pauseBtn.setAttribute("aria-pressed","true"); }});
+      carousel?.addEventListener("mouseleave", () => { paused = false; if(pauseBtn){ pauseBtn.textContent="Pause"; pauseBtn.setAttribute("aria-pressed","false"); }});
+      carousel?.addEventListener("focusin", () => { paused = true; if(pauseBtn){ pauseBtn.textContent="Play"; pauseBtn.setAttribute("aria-pressed","true"); }});
+      carousel?.addEventListener("focusout", () => { paused = false; if(pauseBtn){ pauseBtn.textContent="Pause"; pauseBtn.setAttribute("aria-pressed","false"); }});
+
+      showBanner(0);
+      startBannerTimer();
+    }
+
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    applyState();
+    renderTeam();
+    populateAssignee();
+    applyWorkshopFilters();
+  </script>
+</body>
+</html>
