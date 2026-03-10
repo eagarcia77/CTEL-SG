@@ -917,10 +917,9 @@ id="details" name="details" required=""></textarea>
                   aria-label="Open accessibility guide (sample link)">Quick
                   guide<br>
                 </a></li>
-              <li><a target="_blank" title="WAVE" href="https://wave.webaim.org/"
-                  aria-label="Open WAVE checklist (sample link)">Checklist WAVE</a></li>
-              <li><a target="_blank" title="Document and Media Accessibility" href="https://webaim.org/articles/#:%7E:text=Document%20and%20Media%20Accessibility"
-                  aria-label="Open accessible multimedia guide (sample link)">Accessible
+              <li><a href="#" aria-label="Open WAVE checklist (sample link)">Checklist
+                  WAVE</a></li>
+              <li><a href="#" aria-label="Open accessible multimedia guide (sample link)">Accessible
                   multimedia</a></li>
             </ul>
           </article>
