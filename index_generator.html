@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <p>Creado por El Dr. Eduardo Augusto García Rodríguez</p> -->
+    <title>Convertidor a Blackboard Ultra TXT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+    <style>
+    :root {
+      --verde: #006747;
+      --verde-oscuro: #004c3f;
+      --amarillo: #ffcc00;
+      --fondo: #f4f7fb;
+      --borde: #d8e0ea;
+      --texto: #1f2937;
+      --ok: #027a48;
+      --error: #b42318;
+      --info: #0b63ce;
+    }
+    body {
+      background: linear-gradient(180deg, #f8fafc 0%, var(--fondo) 100%);
+      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .navbar, .footer, .section-title, .btn-primary, .modal-header {
+      background-color: var(--verde) !important;
+    }
+    .btn-primary, .btn-primary:focus, .btn-primary:active {
+      border-color: var(--verde);
+      box-shadow: none !important;
+    }
+    .btn-primary:hover {
+      background-color: var(--verde-oscuro) !important;
+      border-color: var(--verde-oscuro) !important;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(255, 204, 0, .96), rgba(255, 231, 132, .82));
+      border-bottom: 6px solid var(--verde);
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .hero h1 {
+      color: var(--verde);
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+    .card {
+      border: 1px solid var(--borde);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, .06);
+    }
+    .section-title {
+      color: #fff;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
+      font-weight: 700;
+      padding: .9rem 1.2rem;
+    }
+    .panel, .preview, textarea.form-control {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+    textarea.form-control, .preview {
+      font-family: Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+      line-height: 1.55;
+    }
+    textarea.form-control {
+      min-height: 370px;
+      resize: vertical;
+    }
+    .stat {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 1rem;
+      text-align: center;
+      height: 100%;
+    }
+    .stat .n {
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+    .ok { color: var(--ok); }
+    .err { color: var(--error); }
+    .inf { color: var(--info); }
+    .footer {
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    code.inline-sample {
+      background: #eef2f7;
+      padding: .1rem .35rem;
+      border-radius: 6px;
+    }
+  </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark">
+      <div class="container"> <span class="navbar-brand mb-0 h1">Universidad
+          Interamericana de Puerto Rico</span> </div>
+    </nav>
+    <header class="hero">
+      <div class="container">
+        <h1><img style="width: 114px; height: 114px;" alt="Logo UCAN" src="img/ucan-logo.png">Convertir
+          exámenes a formato de Blackboard Ultra</h1>
+        <p class="mb-0">Convierte preguntas escritas en formato legible a líneas
+          TXT compatibles con Blackboard Ultra.</p>
+      </div>
+    </header>
+    <main class="container py-4">
+      <div class="row g-4">
+        <div class="col-12">
+          <div class="card overflow-hidden">
+            <div class="section-title d-flex justify-content-between align-items-center flex-wrap gap-2">
+              <span>Formato que acepta</span> <button class="btn btn-light btn-sm"
+                data-bs-toggle="modal" data-bs-target="#helpModal">Ver ejemplos</button>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-lg-6">
+                  <div class="panel">Ejemplo Multiple Choice: 1. Which of the
+                    following is a prime number? a) 4 *b) 5 c) 6 Salida: MC
+                    Which of the following is a prime number? 5 correct 4
+                    incorrect 6 incorrect</div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="panel">También acepta formatos como: true/false
+                    sin etiqueta pregunta de ensayo sin respuestas <code class="inline-sample">blank</code>
+                    para llenar blancos <code class="inline-sample">match</code>
+                    para pareo <code class="inline-sample">order</code>, <code
+                      class="inline-sample">numeric</code>, <code class="inline-sample">short</code>,
+                    <code class="inline-sample">file</code>, <code class="inline-sample">opinion</code>,
+                    <code class="inline-sample">jumbled sentence</code> y <code
+                      class="inline-sample">quiz bowl</code>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat">
+            <div class="text-muted small">Preguntas detectadas</div>
+            <div class="n" id="questionCount">0</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat">
+            <div class="text-muted small">Errores</div>
+            <div class="n text-danger" id="errorCount">0</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat">
+            <div class="text-muted small">Estado</div>
+            <div class="n text-primary" id="statusLabel">Listo</div>
+          </div>
+        </div>
+        <div class="col-lg-7">
+          <div class="card overflow-hidden">
+            <div class="section-title">Entrada</div>
+            <div class="card-body">
+              <div class="row g-3 mb-3">
+                <div class="col-md-7"> <label class="form-label fw-semibold" for="quizName">Nombre
+                    del archivo</label> <input class="form-control" id="quizName"
+                    placeholder="Banco_Preguntas_Ultra" type="text"> </div>
+                <div class="col-md-5"> <label class="form-label fw-semibold" for="templateType">Insertar
+                    plantilla</label>
+                  <select class="form-select" id="templateType">
+                    <option value="MC">Opción múltiple</option>
+                    <option value="MA">Varias respuestas</option>
+                    <option value="TF">Cierto / Falso</option>
+                    <option value="ESS">Ensayo</option>
+                    <option value="FIB">Llenar blanco</option>
+                    <option value="MAT">Pareo</option>
+                    <option value="ORD">Ordenar</option>
+                    <option value="FIB_PLUS">Llenar blancos con opciones</option>
+                    <option value="FIL">Respuesta de archivo</option>
+                    <option value="NUM">Respuesta numérica</option>
+                    <option value="SR">Respuesta corta</option>
+                    <option value="OP">Opinión / Likert</option>
+                    <option value="JUMBLED_SENTENCE">Oración confusa</option>
+                    <option value="QUIZ_BOWL">Quiz Bowl</option>
+                  </select>
+                </div>
+              </div>
+              <textarea id="quizContent" class="form-control" placeholder="Pegue aquí sus preguntas, separando cada una con una línea en blanco."></textarea>
+              <div class="d-flex flex-wrap gap-2 mt-3"> <button class="btn btn-primary"
+                  id="sampleBtn">Insertar plantilla</button> <button class="btn btn-outline-primary"
+                  id="verifyBtn">Verificar</button> <button class="btn btn-success"
+                  id="convertBtn">Convertir</button> <button class="btn btn-success"
+                  id="downloadBtn">Descargar TXT</button> <button class="btn btn-outline-secondary"
+                  id="copyBtn">Copiar TXT</button> <button class="btn btn-outline-danger"
+                  id="clearBtn">Limpiar</button> </div>
+              <div class="form-text mt-2">Cada pregunta debe ir en un bloque
+                separado por una línea en blanco.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card overflow-hidden h-100">
+            <div class="section-title">Resultado de validación</div>
+            <div class="card-body">
+              <div class="preview" id="resultBox">Todavía no se ha procesado contenido.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="card overflow-hidden">
+            <div class="section-title">Vista previa del TXT de Blackboard Ultra</div>
+            <div class="card-body">
+              <div class="preview" id="previewBox">Aquí aparecerá el contenido convertido.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">Universidad Interamericana de Puerto Rico © 2026 CETL
+      — San Germán Campus.</footer>
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header text-white">
+            <h5 class="modal-title" id="helpModalLabel">Ejemplos de entrada</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+              aria-label="Cerrar"></button> </div>
+          <div class="modal-body">
+            <div class="preview">1. Which of the following is a prime number?
+a) 4
+*b) 5
+c) 6
+
+1. Which of the following is a prime number?
+*a) 2
+*b) 3
+d) 4
+*e) 5
+f) 6
+*g) 7
+
+1. 3 is a prime number.
+True
+
+1. Tell me your life story.
+
+blank 1. Two plus two equals _____.
+a. four
+b. 4
+
+match 6. Match the chapters with their topics.
+a) Chapter 13/Exception Handling
+b) Chapter 16/File Processing
+c) Chapter 10/OOP &amp; Classes
+d) Chapter 15/Chars, C-Strings, &amp; the String Class
+e) Chapter 12/Not covered in this class
+
+order 1. Order the steps.
+Step 1
+Step 2
+Step 3
+
+fib_plus 1. Complete the sentence.
+blank1 = Paris | París
+blank2 = France | Francia
+
+numeric 1. What is 2 + 2?
+4 | 0
+
+short 1. Name a color of the sky.
+blue
+
+file 1. Upload your assignment.
+
+opinion 1. I am satisfied with this course.
+
+jumbled sentence 1. Build the sentence.
+The = subject
+sky
+is blue = predicate
+
+quiz bowl 1. Identify the topic.
+science
+experiment
+method</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    const quizContentEl = document.getElementById('quizContent');
+    const templateTypeEl = document.getElementById('templateType');
+    const quizNameEl = document.getElementById('quizName');
+    const resultBoxEl = document.getElementById('resultBox');
+    const previewBoxEl = document.getElementById('previewBox');
+    const questionCountEl = document.getElementById('questionCount');
+    const errorCountEl = document.getElementById('errorCount');
+    const statusLabelEl = document.getElementById('statusLabel');
+
+    const templates = {
+      MC: `1. Which of the following is a prime number?\na) 4\n*b) 5\nc) 6`,
+      MA: `1. Which of the following is a prime number?\n*a) 2\n*b) 3\nd) 4\n*e) 5\nf) 6\n*g) 7`,
+      TF: `1. 3 is a prime number.\nTrue`,
+      ESS: `1. Tell me your life story.`,
+      FIB: `blank 1. Two plus two equals _____.\na. four\nb. 4`,
+      MAT: `match 6. Match the chapters with their topics.\na) Chapter 13/Exception Handling\nb) Chapter 16/File Processing\nc) Chapter 10/OOP & Classes`,
+      ORD: `order 1. Order the steps.\nStep 1\nStep 2\nStep 3`,
+      FIB_PLUS: `fib_plus 1. Complete the sentence.\nblank1 = Paris | París\nblank2 = France | Francia`,
+      FIL: `file 1. Upload your assignment.`,
+      NUM: `numeric 1. What is 2 + 2?\n4 | 0`,
+      SR: `short 1. Name a color of the sky.\nblue`,
+      OP: `opinion 1. I am satisfied with this course.`,
+      JUMBLED_SENTENCE: `jumbled sentence 1. Build the sentence.\nThe = subject\nsky\nis blue = predicate`,
+      QUIZ_BOWL: `quiz bowl 1. Identify the topic.\nscience\nexperiment\nmethod`
+    };
+
+    const optionLineRegex = /^\*?[a-zA-Z][.)]\s*(.+)$/;
+    const numberedQuestionRegex = /^\d+[.)]\s*(.+)$/;
+    const typedPrefixes = [
+      { prefix: 'blank ', type: 'FIB' },
+      { prefix: 'match ', type: 'MAT' },
+      { prefix: 'order ', type: 'ORD' },
+      { prefix: 'fib_plus ', type: 'FIB_PLUS' },
+      { prefix: 'file ', type: 'FIL' },
+      { prefix: 'numeric ', type: 'NUM' },
+      { prefix: 'short ', type: 'SR' },
+      { prefix: 'opinion ', type: 'OP' },
+      { prefix: 'jumbled sentence ', type: 'JUMBLED_SENTENCE' },
+      { prefix: 'quiz bowl ', type: 'QUIZ_BOWL' }
+    ];
+
+    function splitBlocks(text) {
+      return text.replace(/\r\n/g, '\n').split(/\n\s*\n+/).map(block => block.trim()).filter(Boolean);
+    }
+
+    function sanitizeFileName(name) {
+      return (name || 'blackboard_ultra_questions')
+        .trim()
+        .replace(/[\\/:*?"<>|]+/g, '')
+        .replace(/\s+/g, '_')
+        .replace(/_+/g, '_');
+    }
+
+    function stripQuestionText(line) {
+      const trimmed = line.trim();
+      const numMatch = trimmed.match(numberedQuestionRegex);
+      if (numMatch) return numMatch[1].trim();
+
+      for (const item of typedPrefixes) {
+        if (trimmed.toLowerCase().startsWith(item.prefix)) {
+          const rest = trimmed.slice(item.prefix.length).trim();
+          const nestedNum = rest.match(numberedQuestionRegex);
+          return nestedNum ? nestedNum[1].trim() : rest;
+        }
+      }
+      return trimmed;
+    }
+
+    function parseOptionText(line) {
+      const trimmed = line.trim();
+      const match = trimmed.match(optionLineRegex);
+      if (match) {
+        return {
+          text: match[1].trim(),
+          correct: trimmed.startsWith('*')
+        };
+      }
+      return {
+        text: trimmed,
+        correct: false
+      };
+    }
+
+    function detectType(lines) {
+      const first = (lines[0] || '').trim().toLowerCase();
+
+      for (const item of typedPrefixes) {
+        if (first.startsWith(item.prefix)) return item.type;
+      }
+
+      if (numberedQuestionRegex.test(first)) {
+        const rest = lines.slice(1).map(line => line.trim()).filter(Boolean);
+        if (!rest.length) return 'ESS';
+        if (rest.length === 1) {
+          const tf = rest[0].replace(/^\*/, '').trim().toLowerCase();
+          if (['true', 'false', 'verdadero', 'falso'].includes(tf)) return 'TF';
+        }
+        const options = rest.filter(line => optionLineRegex.test(line));
+        if (options.length >= 2) {
+          const correctCount = options.filter(line => line.trim().startsWith('*')).length;
+          return correctCount > 1 ? 'MA' : 'MC';
+        }
+      }
+
+      return null;
+    }
+
+    function parseMatchPair(line) {
+      const cleaned = parseOptionText(line).text;
+      if (cleaned.includes('/')) {
+        const parts = cleaned.split('/');
+        return [parts[0].trim(), parts.slice(1).join('/').trim()];
+      }
+      if (cleaned.includes('=')) {
+        const parts = cleaned.split('=');
+        return [parts[0].trim(), parts.slice(1).join('=').trim()];
+      }
+      if (cleaned.includes('|')) {
+        const parts = cleaned.split('|');
+        return [parts[0].trim(), parts.slice(1).join('|').trim()];
+      }
+      return null;
+    }
+
+    function parseBlock(block, index) {
+      const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
+      const errors = [];
+      const type = detectType(lines);
+
+      if (!type) {
+        return { errors: [`Bloque ${index + 1}: no se pudo identificar el tipo de pregunta.`] };
+      }
+
+      const firstLine = lines[0];
+      const question = stripQuestionText(firstLine);
+      const rest = lines.slice(1);
+      let output = [];
+
+      if (!question) {
+        errors.push(`Bloque ${index + 1}: no se encontró el texto de la pregunta.`);
+      }
+
+      if (type === 'MC' || type === 'MA') {
+        const options = rest.filter(Boolean).map(parseOptionText).filter(opt => opt.text);
+        const labelledCount = rest.filter(line => optionLineRegex.test(line)).length;
+        if (labelledCount < 2) errors.push(`Bloque ${index + 1}: faltan alternativas válidas.`);
+        const correct = options.filter(opt => opt.correct);
+        const incorrect = options.filter(opt => !opt.correct);
+        if (!correct.length) errors.push(`Bloque ${index + 1}: debe marcar al menos una respuesta con *.`);
+        if (type === 'MC' && correct.length !== 1) errors.push(`Bloque ${index + 1}: Opción múltiple requiere exactamente una respuesta correcta.`);
+        if (type === 'MA' && correct.length < 2) errors.push(`Bloque ${index + 1}: Varias respuestas requiere dos o más respuestas correctas.`);
+        const ordered = [...correct, ...incorrect];
+        output = [type, question];
+        ordered.forEach(item => output.push(item.text, item.correct ? 'correct' : 'incorrect'));
+      }
+
+      if (type === 'TF') {
+        if (!rest.length) errors.push(`Bloque ${index + 1}: True/False requiere una línea con True o False.`);
+        let value = (rest[0] || '').replace(/^\*/, '').trim().toLowerCase();
+        if (value === 'verdadero') value = 'true';
+        if (value === 'falso') value = 'false';
+        if (!['true', 'false'].includes(value)) errors.push(`Bloque ${index + 1}: use True o False.`);
+        output = ['TF', question, value];
+      }
+
+      if (type === 'ESS') {
+        output = ['ESS', question, '[ejemplo]'];
+      }
+
+      if (type === 'FIB') {
+        const answers = rest.map(parseOptionText).map(item => item.text).filter(Boolean);
+        if (!answers.length) errors.push(`Bloque ${index + 1}: blank requiere al menos una respuesta.`);
+        output = ['FIB', question, ...answers];
+      }
+
+      if (type === 'MAT') {
+        const fields = ['MAT', question];
+        if (!rest.length) errors.push(`Bloque ${index + 1}: match requiere pares.`);
+        rest.forEach((line, i) => {
+          const pair = parseMatchPair(line);
+          if (!pair || !pair[0] || !pair[1]) {
+            errors.push(`Bloque ${index + 1}, línea ${i + 1}: use formato término/correspondencia.`);
+          } else {
+            fields.push(pair[0], pair[1]);
+          }
+        });
+        output = fields;
+      }
+
+      if (type === 'ORD') {
+        const items = rest.map(parseOptionText).map(item => item.text).filter(Boolean);
+        if (items.length < 2) errors.push(`Bloque ${index + 1}: order requiere dos o más elementos.`);
+        output = ['ORD', question, ...items];
+      }
+
+      if (type === 'FIB_PLUS') {
+        const fields = ['FIB_PLUS', question];
+        if (!rest.length) errors.push(`Bloque ${index + 1}: fib_plus requiere variables y respuestas.`);
+        rest.forEach((line, i) => {
+          const raw = parseOptionText(line).text;
+          const [variablePart, answersPart] = raw.split(/\s*=\s*/);
+          if (!variablePart || !answersPart) {
+            errors.push(`Bloque ${index + 1}, línea ${i + 1}: use variable = respuesta1 | respuesta2.`);
+            return;
+          }
+          const answers = answersPart.split('|').map(x => x.trim()).filter(Boolean);
+          if (!answers.length) {
+            errors.push(`Bloque ${index + 1}, línea ${i + 1}: faltan respuestas.`);
+            return;
+          }
+          fields.push(variablePart.trim(), ...answers);
+          if (i < rest.length - 1) fields.push('');
+        });
+        output = fields;
+      }
+
+      if (type === 'FIL') {
+        output = ['FIL', question];
+      }
+
+      if (type === 'NUM') {
+        if (!rest.length) errors.push(`Bloque ${index + 1}: numeric requiere respuesta y tolerancia opcional.`);
+        const raw = parseOptionText(rest[0] || '').text;
+        const parts = raw.split('|').map(x => x.trim()).filter(Boolean);
+        if (!parts.length) errors.push(`Bloque ${index + 1}: falta la respuesta numérica.`);
+        output = ['NUM', question, ...parts];
+      }
+
+      if (type === 'SR') {
+        const answer = parseOptionText(rest[0] || '').text;
+        if (!answer) errors.push(`Bloque ${index + 1}: short requiere una respuesta ejemplo.`);
+        output = ['SR', question, answer];
+      }
+
+      if (type === 'OP') {
+        output = ['OP', question];
+      }
+
+      if (type === 'JUMBLED_SENTENCE') {
+        const fields = ['JUMBLED_SENTENCE', question];
+        if (!rest.length) errors.push(`Bloque ${index + 1}: jumbled sentence requiere opciones.`);
+        rest.forEach(line => {
+          const raw = parseOptionText(line).text;
+          if (raw.includes('=')) {
+            const parts = raw.split('=');
+            fields.push(parts[0].trim(), parts.slice(1).join('=').trim());
+          } else {
+            fields.push(raw, '');
+          }
+        });
+        output = fields;
+      }
+
+      if (type === 'QUIZ_BOWL') {
+        const items = rest.map(parseOptionText).map(item => item.text).filter(Boolean);
+        if (!items.length) errors.push(`Bloque ${index + 1}: quiz bowl requiere palabras o frases.`);
+        output = ['QUIZ_BOWL', question, ...items];
+      }
+
+      return {
+        type,
+        question,
+        errors,
+        line: output.join('\t')
+      };
+    }
+
+    function processContent() {
+      const blocks = splitBlocks(quizContentEl.value);
+      const parsed = blocks.map((block, index) => parseBlock(block, index));
+      const errors = parsed.flatMap(item => item.errors || []);
+      const lines = parsed.filter(item => item.line).map(item => item.line);
+      return { blocks, parsed, errors, lines };
+    }
+
+    function showResult(messages, ok) {
+      resultBoxEl.className = `preview ${ok ? 'ok' : 'err'}`;
+      resultBoxEl.textContent = messages.join('\n');
+    }
+
+    function verifyContent() {
+      const { blocks, errors } = processContent();
+      questionCountEl.textContent = blocks.length;
+      errorCountEl.textContent = errors.length;
+      statusLabelEl.textContent = errors.length ? 'Errores' : 'Validado';
+
+      if (!blocks.length) {
+        showResult(['No hay contenido para validar.'], false);
+        return false;
+      }
+
+      if (errors.length) {
+        showResult(errors, false);
+        return false;
+      }
+
+      showResult([`Se detectaron ${blocks.length} pregunta(s) válidas.`], true);
+      return true;
+    }
+
+    function convertContent() {
+      const { blocks, errors, lines } = processContent();
+      questionCountEl.textContent = blocks.length;
+      errorCountEl.textContent = errors.length;
+      statusLabelEl.textContent = errors.length ? 'Errores' : 'Convertido';
+
+      if (!blocks.length) {
+        previewBoxEl.className = 'preview err';
+        previewBoxEl.textContent = 'No hay contenido para convertir.';
+        showResult(['No hay contenido para convertir.'], false);
+        return null;
+      }
+
+      if (errors.length) {
+        previewBoxEl.className = 'preview err';
+        previewBoxEl.textContent = 'Corrija los errores antes de convertir.';
+        showResult(errors, false);
+        return null;
+      }
+
+      const output = lines.join('\r\n');
+      previewBoxEl.className = 'preview ok';
+      previewBoxEl.textContent = output;
+      showResult([`Conversión completada correctamente para ${blocks.length} pregunta(s).`], true);
+      return output;
+    }
+
+    function downloadTxt() {
+      const output = convertContent();
+      if (!output) return;
+      const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${sanitizeFileName(quizNameEl.value)}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(link.href);
+    }
+
+    async function copyTxt() {
+      const output = convertContent();
+      if (!output) return;
+      try {
+        await navigator.clipboard.writeText(output);
+        showResult(['El contenido TXT fue copiado al portapapeles.'], true);
+      } catch (error) {
+        showResult(['No se pudo copiar automáticamente. Revise los permisos del navegador.'], false);
+      }
+    }
+
+    function insertTemplate() {
+      const type = templateTypeEl.value;
+      const current = quizContentEl.value.trim();
+      const tpl = templates[type] || templates.MC;
+      quizContentEl.value = current ? `${current}\n\n${tpl}` : tpl;
+    }
+
+    function clearAll() {
+      quizContentEl.value = '';
+      resultBoxEl.className = 'preview';
+      previewBoxEl.className = 'preview';
+      resultBoxEl.textContent = 'Todavía no se ha procesado contenido.';
+      previewBoxEl.textContent = 'Aquí aparecerá el contenido convertido.';
+      questionCountEl.textContent = '0';
+      errorCountEl.textContent = '0';
+      statusLabelEl.textContent = 'Listo';
+    }
+
+    document.getElementById('sampleBtn').addEventListener('click', insertTemplate);
+    document.getElementById('verifyBtn').addEventListener('click', verifyContent);
+    document.getElementById('convertBtn').addEventListener('click', convertContent);
+    document.getElementById('downloadBtn').addEventListener('click', downloadTxt);
+    document.getElementById('copyBtn').addEventListener('click', copyTxt);
+    document.getElementById('clearBtn').addEventListener('click', clearAll);
+  </script>
+  </body>
+</html>
