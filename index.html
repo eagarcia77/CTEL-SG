@@ -756,112 +756,16 @@
         </div>
       </section>
       <section id="equipo" aria-labelledby="equipo-title">
-      <div class="sec-head">
-        <div>
-          <h2 id="equipo-title">Team</h2>
-          <p>CETL directory (accessible, minimal, and easy to update).</p>
-        </div>
-      </div>
-
-      <div id="teamGrid" class="team-grid" role="list" aria-label="Miembros del equipo"></div>
-
-      <p class="help" style="margin-top:.8rem;">
-        Upload square photos (e.g., 600×600) to <strong>img/</strong> and update the TEAM list in the script.
-      </p>
-    </section>
-      <section id="service-request" aria-labelledby="solicitud-title">
         <div class="sec-head">
           <div>
-            <h2 id="solicitud-title">Service Request</h2>
+            <h2 id="equipo-title">Team</h2>
+            <!-- <p>CETL directory (accessible, minimal, and easy to update).</p> -->
           </div>
         </div>
-        <div class="card">
-          <p class="note" role="status" aria-live="polite" id="formStatus">
-            Suggested response business hours Monday to Friday, 8:00 a.m. - 5:00
-            p.m.</p>
-          <form id="serviceForm" novalidate="" aria-describedby="serviceHelp">
-            <p class="sr-only" id="serviceHelp"> Complete the required fields.
-              If information is missing, the form will indicate what needs
-              attention. </p>
-            <div> <label for="name">Full name</label> <input id="name" name="name"
-
-                autocomplete="name" required="">
-              <p class="help">Required field.</p>
-            </div>
-            <div> <label for="email">Institutional email</label> <input id="email"
-
-                name="email" autocomplete="email" required="" type="email">
-              <p class="help">Required field (email format).</p>
-            </div>
-            <div> <label for="requestType">Service type</label>
-              <select id="requestType" name="requestType" required="">
-                <option value="">Select an option</option>
-                <option value="diseno">Instructional design (estructura,
-                  objetivos, alineación)</option>
-                <option value="accesibilidad">Accessibility (WAVE/WCAG,
-                  materials, multimedia)</option>
-                <option value="evaluacion">Assessment (rubrics, instruments,
-                  feedback)</option>
-                <option value="tecnologia">Educational technology (tools,
-                  activities, resources)</option>
-                <option value="taller">Department workshop request</option>
-                <option value="otro">Other</option>
-              </select>
-              <p class="help">Required field.</p>
-            </div>
-            <div> <label for="assignee">Assign to (optional)</label>
-              <select id="assignee" name="assignee">
-                <option value="">Any CETL team member</option>
-              </select>
-              <p class="help">Optional. If not selected, CETL will assign the
-                request.</p>
-            </div>
-            <div> <label for="modality">Modality</label>
-              <select id="modality" name="modality">
-                <option value="">Select</option>
-                <option value="presencial">In-person</option>
-                <option value="hibrido">Hybrid</option>
-                <option value="enlinea">Online</option>
-              </select>
-              <p class="help">Optional (recommended).</p>
-            </div>
-            <div> <label for="course">Course (code / title)</label> <input id="course"
-
-                name="course">
-              <p class="help">Optional. Example: ABCD1234 – Course name.</p>
-            </div>
-            <div> <label for="deadline">Deadline</label> <input id="deadline"
-
-                name="deadline" type="date">
-              <p class="help">Optional. Helps with prioritization.</p>
-            </div>
-            <div class="full"> <label for="details">Request details</label> <textarea
-
-id="details" name="details" required=""></textarea>
-              <p class="help">Required field. Include the objective, what you
-                want to achieve, and any important context.</p>
-            </div>
-            <div class="full" style="display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;">
-              <button class="submit" type="submit">Submit request</button>
-              <p class="help" style="margin:0;"> Alternative: <strong>ucan_ppoha@intersg.edu</strong></p>
-            </div>
-          </form>
-          <div id="sendOptions" class="send-options" aria-live="polite" hidden="">
-            <strong>Send your request to:</strong> <span id="sendEmail">ucan_ppoha@intersg.edu</span>
-            <p class="sr-note">If the email window does not open automatically,
-              use one of the buttons below.</p>
-            <div class="send-actions" aria-label="Send options"> <a id="sendOutlook"
-
-                class="btn-link primary" href="#" target="_blank" rel="noopener">Open
-                in Outlook Web</a> <a id="sendGmail" class="btn-link secondary"
-
-                href="#" target="_blank" rel="noopener">Open in Gmail</a> <a id="sendMailApp"
-
-                class="btn-link" href="#">Open in Mail app</a> <button id="copyRequest"
-
-                class="btn-link" type="button">Copy message</button> </div>
-          </div>
-        </div>
+        <div id="teamGrid" class="team-grid" role="list" aria-label="Miembros del equipo"></div>
+        <!-- <p class="help" style="margin-top:.8rem;"> Upload square photos (e.g.,
+          600×600) to <strong>img/</strong> and update the TEAM list in the
+          script. </p> -->
       </section>
       <section id="workshops" aria-labelledby="talleres-title">
         <div class="sec-head">
@@ -1262,43 +1166,47 @@ const root = document.documentElement;
     const form = document.getElementById("serviceForm");
     const status = document.getElementById("formStatus");
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const requiredIds = ["name","email","requestType","details"];
-      let ok = true;
+    if(form && status){
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const requiredIds = ["name","email","requestType","details"];
+        let ok = true;
 
-      requiredIds.forEach(id => {
-        const el = document.getElementById(id);
-        if(!el.value || !String(el.value).trim()){
-          ok = false;
-          el.setAttribute("aria-invalid", "true");
-        } else {
-          el.removeAttribute("aria-invalid");
+        requiredIds.forEach(id => {
+          const el = document.getElementById(id);
+          if(!el || !el.value || !String(el.value).trim()){
+            ok = false;
+            el?.setAttribute("aria-invalid", "true");
+          } else {
+            el.removeAttribute("aria-invalid");
+          }
+        });
+
+        if(!ok){
+          status.textContent = "Please review the highlighted required fields before submitting.";
+          status.style.borderLeftColor = "var(--brand)";
+          return;
+        }
+
+        // Build the email payload and show send options
+        const { subject, body } = buildEmailPayload();
+        setSendOptions(subject, body);
+
+        status.textContent = `Validated. Sending options are ready for ${SERVICE_EMAIL}.`;
+        status.style.borderLeftColor = "var(--success)";
+
+        // Try opening Outlook Web automatically (works well when no desktop mail client is configured).
+        const outlookLink = document.getElementById("sendOutlook");
+        const mailAppLink = document.getElementById("sendMailApp");
+        const outlookUrl = outlookLink?.href;
+        if(outlookUrl){
+          const w = window.open(outlookUrl, "_blank", "noopener");
+          if(!w && mailAppLink?.href){
+            window.location.href = mailAppLink.href;
+          }
         }
       });
-
-      if(!ok){
-        status.textContent = "Please review the highlighted required fields before submitting.";
-        status.style.borderLeftColor = "var(--brand)";
-        return;
-      }
-
-      
-      // Build the email payload and show send options
-      const { subject, body } = buildEmailPayload();
-      setSendOptions(subject, body);
-
-      status.textContent = `Validated. Sending options are ready for ${SERVICE_EMAIL}.`;
-      status.style.borderLeftColor = "var(--success)";
-
-      // Try opening Outlook Web automatically (works well when no desktop mail client is configured).
-      const outlookUrl = document.getElementById("sendOutlook").href;
-      const w = window.open(outlookUrl, "_blank", "noopener");
-      if(!w){
-        // Popup blocked: fall back to mail app link (mailto)
-        window.location.href = document.getElementById("sendMailApp").href;
-      }
-});
+    }
 
     // ===== Workshops: filtro por modalidad + búsqueda por tema
     const filterModality = document.getElementById("filterModality");
