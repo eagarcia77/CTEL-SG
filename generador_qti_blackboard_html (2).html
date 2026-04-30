@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QTI Studio PRO para Blackboard</title>
+  <style>
+    :root {
+      --green: #007B5F;
+      --green-dark: #004d3b;
+      --yellow: #FED141;
+      --bg: #eef4f2;
+      --card: rgba(255,255,255,.88);
+      --text: #17202a;
+      --muted: #64748b;
+      --border: #d8e2dc;
+      --danger: #b91c1c;
+      --success: #15803d;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --shadow: 0 18px 50px rgba(0,0,0,.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(254,209,65,.35), transparent 32%),
+        radial-gradient(circle at top right, rgba(0,123,95,.20), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+      padding: 34px 24px;
+      border-bottom: 7px solid var(--yellow);
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -70px;
+      top: -90px;
+      background: rgba(254,209,65,.22);
+      border-radius: 999px;
+    }
+
+    header h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.7rem); letter-spacing: -.04em; }
+    header p { margin: 10px 0 0; color: #e8fff7; max-width: 850px; }
+
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    h2 { color: var(--green); margin-top: 0; letter-spacing: -.02em; }
+    h3 { margin-bottom: 6px; color: var(--green-dark); }
+
+    textarea, input, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      background: rgba(255,255,255,.95);
+      outline: none;
+    }
+
+    textarea:focus, input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(0,123,95,.10); }
+    textarea { min-height: 470px; resize: vertical; }
+    .output { min-height: 470px; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); opacity: .92; }
+    .primary { background: var(--green); color: white; }
+    .secondary { background: var(--yellow); color: #111827; }
+    .blue { background: var(--blue); color: white; }
+    .purple { background: var(--purple); color: white; }
+    .ghost { background: #e5e7eb; color: #111827; }
+
+    .note {
+      background: #ecfdf5;
+      border-left: 6px solid var(--green);
+      padding: 14px;
+      border-radius: 18px;
+      font-size: .95rem;
+    }
+
+    .error, .success, .warn {
+      padding: 14px;
+      border-radius: 18px;
+      white-space: pre-wrap;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .error { background: #fee2e2; color: var(--danger); border-left: 6px solid var(--danger); }
+    .success { background: #dcfce7; color: var(--success); border-left: 6px solid var(--success); }
+    .warn { background: #fef3c7; color: #92400e; border-left: 6px solid #f59e0b; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 18px;
+    }
+
+    .stat strong { display: block; color: var(--green); font-size: 1.5rem; }
+
+    code, pre {
+      background: #f1f5f9;
+      padding: 3px 6px;
+      border-radius: 8px;
+    }
+
+    pre { padding: 14px; overflow: auto; white-space: pre-wrap; }
+
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 0; }
+    .chip { background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe; border-radius:999px; padding:6px 10px; font-weight:800; font-size:.85rem; }
+    .chip.green { background:#ecfdf5; color:#065f46; border-color:#a7f3d0; }
+    .chip.yellow { background:#fffbeb; color:#92400e; border-color:#fde68a; }
+
+    footer {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 28px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 950px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>QTI Studio PRO para Blackboard</h1>
+    <p>Generador moderno de paquetes QTI 1.2. Convierte bancos de preguntas en texto a XML importable en Blackboard Ultra/Learn con múltiples tipos de ítems.</p>
+  </header>
+
+  <main>
+    <section class="card full">
+      <h2>Tipos de preguntas compatibles</h2>
+      <div class="chips">
+        <span class="chip green">MC: Selección múltiple</span>
+        <span class="chip green">TF: Cierto/Falso</span>
+        <span class="chip">MA: Respuesta múltiple</span>
+        <span class="chip">FIB: Llenar blanco</span>
+        <span class="chip">SA: Respuesta corta</span>
+        <span class="chip">ESSAY: Ensayo</span>
+        <span class="chip yellow">MATCH: Pareo</span>
+      </div>
+      <p class="note"><strong>Formato recomendado:</strong> escribe el tipo al inicio de cada pregunta. Usa <code>*</code> para marcar respuestas correctas. En preguntas de pareo, usa <code>izquierda = derecha</code>. Deja una línea en blanco entre preguntas.</p>
+      <pre>MC 1. ¿Cuál es la mejor definición de inteligencia artificial en educación?
+A. Uso de computadoras sin interacción humana
+*B. Capacidad de sistemas para realizar tareas que requieren inteligencia humana
+C. Uso exclusivo de robots en el aula
+D. Sustitución total del docente
+
+MA 2. Seleccione aplicaciones de IA en educación.
+*A. Tutoría inteligente
+*B. Analítica del aprendizaje
+C. Eliminación del docente
+*D. Retroalimentación automatizada
+
+FIB 3. La inteligencia artificial permite ______ el aprendizaje.
+*personalizar
+*adaptar
+
+SA 4. Defina brevemente qué es un algoritmo.
+*conjunto de instrucciones
+*secuencia de pasos
+
+ESSAY 5. Explique dos implicaciones éticas de la IA en educación.
+
+MATCH 6. Relacione los conceptos.
+Aprendizaje automático = Sistemas que aprenden de datos
+Chatbot = Programa conversacional
+Analítica = Análisis de datos académicos</pre>
+    </section>
+
+    <section class="card">
+      <h2>Banco de preguntas</h2>
+      <textarea id="inputText" spellcheck="false" placeholder="Pega aquí tu banco de preguntas..."></textarea>
+      <div class="toolbar">
+        <button class="primary" onclick="generateQTI()">Generar QTI</button>
+        <button class="secondary" onclick="downloadXML()">Descargar assessment.xml</button>
+        <button class="blue" onclick="downloadPackageFiles()">Descargar guía del paquete</button>
+        <button class="purple" onclick="loadExample()">Cargar ejemplo PRO</button>
+        <button class="ghost" onclick="clearAll()">Limpiar</button>
+      </div>
+      <div id="message"></div>
+    </section>
+
+    <section class="card">
+      <h2>QTI XML generado</h2>
+      <textarea id="outputXML" class="output" spellcheck="false" readonly></textarea>
+      <div class="toolbar">
+        <button class="secondary" onclick="copyXML()">Copiar XML</button>
+        <button class="ghost" onclick="validateOnly()">Validar banco</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="countQuestions">0</strong>Total</div>
+        <div class="stat"><strong id="countMC">0</strong>MC</div>
+        <div class="stat"><strong id="countTF">0</strong>TF</div>
+        <div class="stat"><strong id="countMA">0</strong>MA</div>
+        <div class="stat"><strong id="countFIB">0</strong>FIB</div>
+        <div class="stat"><strong id="countSA">0</strong>SA</div>
+        <div class="stat"><strong id="countESSAY">0</strong>Ensayo</div>
+        <div class="stat"><strong id="countMATCH">0</strong>Pareo</div>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>Notas de compatibilidad</h2>
+      <p>Blackboard suele importar de forma más consistente preguntas de selección única, cierto/falso, respuesta múltiple y ensayo mediante QTI 1.2. Algunos entornos pueden interpretar pareo y llenar blancos de forma distinta según la versión institucional. Por eso, el generador produce XML QTI estándar y mantiene una estructura simple para reducir errores de importación.</p>
+      <p>Para importar: descarga <code>assessment.xml</code>, colócalo dentro de una carpeta, comprime esa carpeta como <code>.zip</code> y usa la opción de importación QTI en Blackboard.</p>
+    </section>
+  </main>
+
+  <footer>UCAN QTI Studio PRO | Generador local: no envía datos a internet.</footer>
+
+  <script>
+    const POINTS_PER_QUESTION = 1;
+    const SUPPORTED_TYPES = ['MC', 'TF', 'MA', 'FIB', 'SA', 'ESSAY', 'MATCH'];
+
+    function escapeXML(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    function normalizeLine(line) { return line.replace(/\r/g, '').trim(); }
+
+    function splitBlocks(text) {
+      return text.replace(/\r\n/g, '\n').split(/\n\s*\n+/).map(b => b.trim()).filter(Boolean);
+    }
+
+    function parseHeader(line, index) {
+      const clean = line.trim();
+      const typeMatch = clean.match(/^(MC|TF|MA|FIB|SA|ESSAY|MATCH)\s+(.+)$/i);
+      let type = 'MC';
+      let question = clean;
+      if (typeMatch) {
+        type = typeMatch[1].toUpperCase();
+        question = typeMatch[2].trim();
+      }
+      question = question.replace(/^\d+\.\s*/, '').trim();
+      if (!question) throw new Error(`Pregunta ${index + 1}: el enunciado está vacío.`);
+      return { type, question };
+    }
+
+    function parseOptionLine(line, qIndex) {
+      let isCorrect = false;
+      let working = line.trim();
+      if (working.startsWith('*')) {
+        isCorrect = true;
+        working = working.slice(1).trim();
+      }
+      const match = working.match(/^([A-Z])\.\s*(.+)$/i);
+      if (!match) throw new Error(`Pregunta ${qIndex + 1}: la opción "${line}" debe usar formato A. Texto.`);
+      return { ident: match[1].toUpperCase(), text: match[2].trim(), isCorrect };
+    }
+
+    function parseChoiceQuestion(lines, type, qIndex) {
+      const options = [];
+      lines.forEach(line => options.push(parseOptionLine(line, qIndex)));
+      if (options.length < 2) throw new Error(`Pregunta ${qIndex + 1}: debe incluir al menos dos opciones.`);
+      const correct = options.filter(o => o.isCorrect);
+      if (type === 'MC' || type === 'TF') {
+        if (correct.length !== 1) throw new Error(`Pregunta ${qIndex + 1}: ${type} requiere exactamente una respuesta correcta con *.`);
+      }
+      if (type === 'MA') {
+        if (correct.length < 2) throw new Error(`Pregunta ${qIndex + 1}: MA requiere dos o más respuestas correctas con *.`);
+      }
+      if (type === 'TF') {
+        const labels = options.map(o => o.text.toLowerCase());
+        const valid = labels.some(t => ['verdadero','true','cierto'].includes(t)) && labels.some(t => ['falso','false'].includes(t));
+        if (!valid) throw new Error(`Pregunta ${qIndex + 1}: TF debe tener opciones Verdadero/Falso o True/False.`);
+      }
+      return options;
+    }
+
+    function parseTextAnswers(lines, type, qIndex) {
+      const answers = lines.map(l => l.trim()).filter(Boolean).map(l => l.startsWith('*') ? l.slice(1).trim() : l.trim()).filter(Boolean);
+      if ((type === 'FIB' || type === 'SA') && answers.length < 1) throw new Error(`Pregunta ${qIndex + 1}: ${type} requiere al menos una respuesta aceptada marcada o escrita debajo.`);
+      return answers;
+    }
+
+    function parseMatching(lines, qIndex) {
+      const pairs = lines.map(line => {
+        const clean = line.trim();
+        const parts = clean.split(/\s*=\s*/);
+        if (parts.length !== 2 || !parts[0] || !parts[1]) {
+          throw new Error(`Pregunta ${qIndex + 1}: pareo debe usar formato Concepto = Definición.`);
+        }
+        return { left: parts[0].trim(), right: parts[1].trim() };
+      });
+      if (pairs.length < 2) throw new Error(`Pregunta ${qIndex + 1}: MATCH requiere al menos dos pares.`);
+      return pairs;
+    }
+
+    function parseQuestionBlock(block, index) {
+      const rawLines = block.split('\n').map(normalizeLine).filter(Boolean);
+      if (rawLines.length < 1) throw new Error(`Pregunta ${index + 1}: bloque vacío.`);
+      const { type, question } = parseHeader(rawLines[0], index);
+      if (!SUPPORTED_TYPES.includes(type)) throw new Error(`Pregunta ${index + 1}: tipo no compatible (${type}).`);
+      const body = rawLines.slice(1);
+
+      if (['MC', 'TF', 'MA'].includes(type)) {
+        return { number: index + 1, type, question, options: parseChoiceQuestion(body, type, index) };
+      }
+      if (['FIB', 'SA'].includes(type)) {
+        return { number: index + 1, type, question, answers: parseTextAnswers(body, type, index) };
+      }
+      if (type === 'ESSAY') {
+        return { number: index + 1, type, question, answers: [] };
+      }
+      if (type === 'MATCH') {
+        return { number: index + 1, type, question, pairs: parseMatching(body, index) };
+      }
+    }
+
+    function buildChoiceItem(item) {
+      const itemId = `q${item.number}`;
+      const responseId = `r${item.number}`;
+      const cardinality = item.type === 'MA' ? 'Multiple' : 'Single';
+      const optionsXML = item.options.map(option => `
+            <response_label ident="${escapeXML(option.ident)}">
+              <material><mattext texttype="text/plain">${escapeXML(option.text)}</mattext></material>
+            </response_label>`).join('');
+
+      const correctVars = item.options.filter(o => o.isCorrect).map(o => `<varequal respident="${responseId}">${escapeXML(o.ident)}</varequal>`).join('\n              ');
+      const condition = item.type === 'MA' ? `<and>
+              ${correctVars}
+            </and>` : correctVars;
+
+      return `
+      <item ident="${itemId}" title="Pregunta ${item.number} - ${item.type}">
+        <presentation>
+          <material><mattext texttype="text/plain">${escapeXML(item.question)}</mattext></material>
+          <response_lid ident="${responseId}" rcardinality="${cardinality}">
+            <render_choice>${optionsXML}
+            </render_choice>
+          </response_lid>
+        </presentation>
+        <resprocessing>
+          <outcomes><decvar maxvalue="${POINTS_PER_QUESTION}" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes>
+          <respcondition continue="No">
+            <conditionvar>
+              ${condition}
+            </conditionvar>
+            <setvar action="Set" varname="SCORE">${POINTS_PER_QUESTION}</setvar>
+          </respcondition>
+        </resprocessing>
+      </item>`;
+    }
+
+    function buildTextItem(item) {
+      const itemId = `q${item.number}`;
+      const responseId = `r${item.number}`;
+      const rows = item.type === 'SA' ? 5 : 1;
+      const conditions = item.answers.map(answer => `
+          <respcondition continue="Yes">
+            <conditionvar><varequal respident="${responseId}" case="No">${escapeXML(answer)}</varequal></conditionvar>
+            <setvar action="Set" varname="SCORE">${POINTS_PER_QUESTION}</setvar>
+          </respcondition>`).join('');
+
+      return `
+      <item ident="${itemId}" title="Pregunta ${item.number} - ${item.type}">
+        <presentation>
+          <material><mattext texttype="text/plain">${escapeXML(item.question)}</mattext></material>
+          <response_str ident="${responseId}" rcardinality="Single">
+            <render_fib rows="${rows}" columns="80" />
+          </response_str>
+        </presentation>
+        <resprocessing>
+          <outcomes><decvar maxvalue="${POINTS_PER_QUESTION}" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes>${conditions}
+        </resprocessing>
+      </item>`;
+    }
+
+    function buildEssayItem(item) {
+      const itemId = `q${item.number}`;
+      const responseId = `r${item.number}`;
+      return `
+      <item ident="${itemId}" title="Pregunta ${item.number} - ESSAY">
+        <presentation>
+          <material><mattext texttype="text/plain">${escapeXML(item.question)}</mattext></material>
+          <response_str ident="${responseId}" rcardinality="Single">
+            <render_fib rows="12" columns="100" />
+          </response_str>
+        </presentation>
+        <resprocessing>
+          <outcomes><decvar maxvalue="${POINTS_PER_QUESTION}" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes>
+        </resprocessing>
+      </item>`;
+    }
+
+    function buildMatchItem(item) {
+      const itemId = `q${item.number}`;
+      const leftId = `r${item.number}`;
+      const leftChoices = item.pairs.map((p, i) => `
+            <response_label ident="L${i+1}">
+              <material><mattext texttype="text/plain">${escapeXML(p.left)}</mattext></material>
+            </response_label>`).join('');
+      const rightChoices = item.pairs.map((p, i) => `
+            <response_label ident="R${i+1}">
+              <material><mattext texttype="text/plain">${escapeXML(p.right)}</mattext></material>
+            </response_label>`).join('');
+      const conditions = item.pairs.map((p, i) => `<varequal respident="${leftId}">L${i+1} R${i+1}</varequal>`).join('\n              ');
+
+      return `
+      <item ident="${itemId}" title="Pregunta ${item.number} - MATCH">
+        <presentation>
+          <material><mattext texttype="text/plain">${escapeXML(item.question)}</mattext></material>
+          <response_grp ident="${leftId}" rcardinality="Multiple">
+            <render_choice shuffle="Yes">
+              <material><mattext texttype="text/plain">Premisas</mattext></material>${leftChoices}
+              <material><mattext texttype="text/plain">Respuestas</mattext></material>${rightChoices}
+            </render_choice>
+          </response_grp>
+        </presentation>
+        <resprocessing>
+          <outcomes><decvar maxvalue="${POINTS_PER_QUESTION}" minvalue="0" varname="SCORE" vartype="Decimal" /></outcomes>
+          <respcondition continue="No">
+            <conditionvar>
+              <and>
+              ${conditions}
+              </and>
+            </conditionvar>
+            <setvar action="Set" varname="SCORE">${POINTS_PER_QUESTION}</setvar>
+          </respcondition>
+        </resprocessing>
+      </item>`;
+    }
+
+    function buildQTIItem(item) {
+      if (['MC', 'TF', 'MA'].includes(item.type)) return buildChoiceItem(item);
+      if (['FIB', 'SA'].includes(item.type)) return buildTextItem(item);
+      if (item.type === 'ESSAY') return buildEssayItem(item);
+      if (item.type === 'MATCH') return buildMatchItem(item);
+      throw new Error(`Tipo no soportado: ${item.type}`);
+    }
+
+    function buildQTI(items) {
+      const itemsXML = items.map(buildQTIItem).join('\n');
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <assessment ident="banco_qti_blackboard_pro" title="Banco de Preguntas QTI PRO">
+    <qtimetadata>
+      <qtimetadatafield><fieldlabel>qti_version</fieldlabel><fieldentry>1.2</fieldentry></qtimetadatafield>
+      <qtimetadatafield><fieldlabel>generator</fieldlabel><fieldentry>UCAN QTI Studio PRO</fieldentry></qtimetadatafield>
+    </qtimetadata>
+    <section ident="seccion_banco" title="Banco generado">
+${itemsXML}
+    </section>
+  </assessment>
+</questestinterop>`;
+    }
+
+    function getItems() {
+      const input = document.getElementById('inputText').value.trim();
+      if (!input) throw new Error('Pega primero las preguntas en el área de texto.');
+      const blocks = splitBlocks(input);
+      return blocks.map(parseQuestionBlock);
+    }
+
+    function generateQTI() {
+      const message = document.getElementById('message');
+      const output = document.getElementById('outputXML');
+      message.innerHTML = '';
+      output.value = '';
+      try {
+        const items = getItems();
+        output.value = buildQTI(items);
+        updateStats(items);
+        message.innerHTML = `<div class="success">QTI generado correctamente con ${items.length} preguntas y ${SUPPORTED_TYPES.length} tipos compatibles.</div>`;
+      } catch (error) {
+        updateStats([]);
+        message.innerHTML = `<div class="error">${escapeXML(error.message)}</div>`;
+      }
+    }
+
+    function validateOnly() {
+      try {
+        const items = getItems();
+        updateStats(items);
+        document.getElementById('message').innerHTML = `<div class="success">Banco validado correctamente: ${items.length} preguntas.</div>`;
+      } catch(error) {
+        updateStats([]);
+        document.getElementById('message').innerHTML = `<div class="error">${escapeXML(error.message)}</div>`;
+      }
+    }
+
+    function updateStats(items) {
+      const byType = Object.fromEntries(SUPPORTED_TYPES.map(t => [t, 0]));
+      items.forEach(i => byType[i.type]++);
+      document.getElementById('countQuestions').textContent = items.length;
+      document.getElementById('countMC').textContent = byType.MC || 0;
+      document.getElementById('countTF').textContent = byType.TF || 0;
+      document.getElementById('countMA').textContent = byType.MA || 0;
+      document.getElementById('countFIB').textContent = byType.FIB || 0;
+      document.getElementById('countSA').textContent = byType.SA || 0;
+      document.getElementById('countESSAY').textContent = byType.ESSAY || 0;
+      document.getElementById('countMATCH').textContent = byType.MATCH || 0;
+    }
+
+    function downloadXML() {
+      if (!document.getElementById('outputXML').value.trim()) generateQTI();
+      const xml = document.getElementById('outputXML').value.trim();
+      if (!xml) return;
+      downloadFile('assessment.xml', xml, 'application/xml;charset=utf-8');
+    }
+
+    function downloadPackageFiles() {
+      const guide = `PAQUETE QTI PARA BLACKBOARD\n\n1. Descarga assessment.xml desde el generador.\n2. Crea una carpeta llamada QTI_Blackboard_PRO.\n3. Coloca assessment.xml dentro de esa carpeta.\n4. Comprime la carpeta en .zip.\n5. En Blackboard Ultra/Learn, usa Importar contenido / Importar QTI.\n\nNota: si tu Blackboard no acepta MATCH o FIB por versión institucional, importa primero MC, TF, MA y ESSAY.`;
+      downloadFile('LEEME_QTI_Blackboard.txt', guide, 'text/plain;charset=utf-8');
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function copyXML() {
+      if (!document.getElementById('outputXML').value.trim()) generateQTI();
+      const output = document.getElementById('outputXML');
+      output.select();
+      document.execCommand('copy');
+      document.getElementById('message').innerHTML = '<div class="success">XML copiado al portapapeles.</div>';
+    }
+
+    function loadExample() {
+      document.getElementById('inputText').value = `MC 1. ¿Cuál es la mejor definición de inteligencia artificial en educación?
+A. Uso de computadoras sin interacción humana
+*B. Capacidad de sistemas para realizar tareas que requieren inteligencia humana
+C. Uso exclusivo de robots en el aula
+D. Sustitución total del docente
+
+TF 2. La inteligencia artificial permite personalizar el aprendizaje según las necesidades del estudiante.
+*A. Verdadero
+B. Falso
+
+MA 3. Seleccione aplicaciones de IA en educación.
+*A. Tutoría inteligente
+*B. Analítica del aprendizaje
+C. Eliminación del docente
+*D. Retroalimentación automatizada
+
+FIB 4. La inteligencia artificial permite ______ el aprendizaje.
+*personalizar
+*adaptar
+
+SA 5. Defina brevemente qué es un algoritmo.
+*conjunto de instrucciones
+*secuencia de pasos
+
+ESSAY 6. Explique dos implicaciones éticas del uso de IA en educación.
+
+MATCH 7. Relacione los conceptos con su definición.
+Aprendizaje automático = Sistemas que aprenden de datos
+Chatbot = Programa conversacional
+Analítica educativa = Análisis de datos académicos`;
+      generateQTI();
+    }
+
+    function clearAll() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('outputXML').value = '';
+      document.getElementById('message').innerHTML = '';
+      updateStats([]);
+    }
+  </script>
+</body>
+</html>
