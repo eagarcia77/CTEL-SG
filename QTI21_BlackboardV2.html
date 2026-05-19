@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests;">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+
+  <!-- Creado por El Dr. Eduardo Augusto García Rodríguez -->
+  <!-- Desarrollador Curricular - Coordinador de Proyecto -->
+  <!-- Developing Postbacc and Postgrad Curriculum Program -->
+  <!-- University Center for Advancing and Nurturing Postbacc Quality (UCAN) -->
+  <!-- Title V PPOHA #P031M230038 -->
+
+  <title>QTI 2.1 Studio PRO para Blackboard Ultra</title>
+  <style>
+    :root {
+      --green: #007B5F;
+      --green-dark: #004d3b;
+      --yellow: #FED141;
+      --bg: #eef4f2;
+      --card: rgba(255,255,255,.9);
+      --text: #17202a;
+      --muted: #64748b;
+      --border: #d8e2dc;
+      --danger: #b91c1c;
+      --success: #15803d;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+      --shadow: 0 18px 50px rgba(0,0,0,.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(254,209,65,.35), transparent 32%),
+        radial-gradient(circle at top right, rgba(0,123,95,.20), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: white;
+      padding: 34px 24px;
+      border-bottom: 7px solid var(--yellow);
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -70px;
+      top: -90px;
+      background: rgba(254,209,65,.22);
+      border-radius: 999px;
+    }
+
+    header h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.7rem); letter-spacing: -.04em; }
+    header p { margin: 10px 0 0; color: #e8fff7; max-width: 900px; }
+
+    .header-logo {
+      max-height: 80px;
+      width: auto;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 2;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    h2 { color: var(--green); margin-top: 0; letter-spacing: -.02em; }
+    h3 { margin-bottom: 6px; color: var(--green-dark); }
+
+    textarea, input {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px;
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      background: rgba(255,255,255,.95);
+      outline: none;
+    }
+
+    textarea:focus, input:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(0,123,95,.10); }
+    textarea { min-height: 470px; resize: vertical; }
+    .output { min-height: 470px; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform .15s ease, opacity .15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); opacity: .92; }
+    .primary { background: var(--green); color: white; }
+    .secondary { background: var(--yellow); color: #111827; }
+    .blue { background: var(--blue); color: white; }
+    .purple { background: var(--purple); color: white; }
+    .ghost { background: #e5e7eb; color: #111827; }
+
+    .note, .security-note {
+      background: #ecfdf5;
+      border-left: 6px solid var(--green);
+      padding: 14px;
+      border-radius: 18px;
+      font-size: .95rem;
+    }
+
+    .security-note {
+      background: #f4fbf8;
+      margin-top: 14px;
+    }
+
+    .error, .success, .warn {
+      padding: 14px;
+      border-radius: 18px;
+      white-space: pre-wrap;
+      margin-top: 12px;
+      font-weight: 700;
+    }
+
+    .error { background: #fee2e2; color: var(--danger); border-left: 6px solid var(--danger); }
+    .success { background: #dcfce7; color: var(--success); border-left: 6px solid var(--success); }
+    .warn { background: #fef3c7; color: #92400e; border-left: 6px solid #f59e0b; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 18px;
+    }
+
+    .stat strong { display: block; color: var(--green); font-size: 1.5rem; }
+
+    code, pre {
+      background: #f1f5f9;
+      padding: 3px 6px;
+      border-radius: 8px;
+    }
+
+    pre { padding: 14px; overflow: auto; white-space: pre-wrap; }
+
+    .chips { display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 0; }
+    .chip { background:#eef2ff; color:#3730a3; border:1px solid #c7d2fe; border-radius:999px; padding:6px 10px; font-weight:800; font-size:.85rem; }
+    .chip.green { background:#ecfdf5; color:#065f46; border-color:#a7f3d0; }
+    .chip.yellow { background:#fffbeb; color:#92400e; border-color:#fde68a; }
+    .chip.red { background:#fee2e2; color:#991b1b; border-color:#fecaca; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-top: 14px;
+    }
+
+    label { font-weight: 800; color: var(--green-dark); }
+
+
+
+    .validation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .validation-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .validation-box strong {
+      display: block;
+      font-size: 1.4rem;
+      color: var(--green);
+    }
+
+    .validation-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .validation-item {
+      border: 1px solid var(--border);
+      border-left-width: 6px;
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: #ffffff;
+    }
+
+    .validation-item.ok { border-left-color: var(--success); background: #f0fdf4; }
+    .validation-item.warn { border-left-color: #f59e0b; background: #fffbeb; color: #78350f; }
+    .validation-item.error { border-left-color: var(--danger); background: #fef2f2; color: #7f1d1d; }
+
+    .validation-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .small-muted {
+      color: var(--muted);
+      font-size: .92rem;
+      margin-top: 4px;
+    }
+
+    footer {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 28px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 950px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="img/LOGO-INTER-SG-HORIZONTAL_sticker.png" alt="Logo Inter San Germán" class="header-logo" loading="eager">
+    <h1>QTI 2.1 Blackboard</h1>
+    <p>Generador estable de paquetes ZIP QTI 2.1 para Blackboard Ultra. Convierte bancos de preguntas en texto a un paquete importable desde <strong>Manage Banks</strong>, sin crear manualmente el ZIP.</p>
+  </header>
+
+  <main>
+    <section class="card full">
+      <h2>Tipos de preguntas compatibles</h2>
+      <div class="chips">
+        <span class="chip green">MC: Selección múltiple</span>
+        <span class="chip green">TF: Cierto/Falso</span>
+        <span class="chip green">FIB: Llenar blanco</span>
+        <span class="chip green">SA: Respuesta corta</span>
+        <span class="chip green">ESSAY: Ensayo</span>
+        <span class="chip red">MA: Desactivado</span>
+        <span class="chip red">MATCH: Desactivado</span>
+      </div>
+      <p class="note"><strong>Formato recomendado:</strong> escribe el tipo al inicio de cada pregunta. Usa <code>*</code> para marcar la respuesta correcta o las respuestas aceptadas. Deja una línea en blanco entre preguntas. Esta versión estable excluye <code>MA</code> y <code>MATCH</code> porque Blackboard Ultra puede rechazarlas durante la conversión del paquete.</p>
+      <pre>MC 1. ¿Cuál es la mejor definición de inteligencia artificial en educación?
+A. Uso de computadoras sin interacción humana
+*B. Capacidad de sistemas para realizar tareas que requieren inteligencia humana
+C. Uso exclusivo de robots en el aula
+D. Sustitución total del docente
+
+TF 2. La inteligencia artificial permite personalizar el aprendizaje según las necesidades del estudiante.
+*A. Verdadero
+B. Falso
+
+FIB 3. La inteligencia artificial permite ______ el aprendizaje.
+*personalizar
+*adaptar
+
+SA 4. Defina brevemente qué es un algoritmo.
+
+ESSAY 5. Explique dos implicaciones éticas del uso de la IA en la educación.</pre>
+      <div class="security-note" role="note">
+        <strong>Nota de seguridad:</strong> esta herramienta procesa el contenido localmente en el navegador. No escriba contraseñas, información personal sensible ni datos confidenciales de estudiantes. Revise siempre el paquete generado antes de importarlo a Blackboard.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Banco de preguntas</h2>
+      <div class="field-row">
+        <label for="packageName">Nombre del paquete ZIP</label>
+        <input id="packageName" type="text" value="UCAN_QTI21_Blackboard" maxlength="50" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label for="inputText">Contenido del banco</label>
+        <textarea id="inputText" spellcheck="false" placeholder="Pega aquí tu banco de preguntas..."></textarea>
+      </div>
+      <div class="toolbar">
+        <button class="primary" id="btnGenerate" type="button">Generar paquete</button>
+        <button class="secondary" id="btnDownloadZip" type="button">Descargar ZIP QTI 2.1</button>
+        <button class="blue" id="btnDownloadReadme" type="button">Descargar instrucciones</button>
+        <button class="purple" id="btnLoadExample" type="button">Cargar ejemplo estable</button>
+        <button class="ghost" id="btnClear" type="button">Limpiar</button>
+      </div>
+      <div id="message" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <h2>Verificación del contenido pegado</h2>
+      <p class="small-muted">Use esta parte antes de generar el ZIP. La herramienta revisa si las preguntas tienen el tipo correcto, si las opciones están bien escritas, si existe una respuesta marcada con <code>*</code> y si hay tipos no compatibles.</p>
+      <div class="toolbar">
+        <button class="primary" id="btnRunCheck" type="button">Verificar contenido</button>
+        <button class="ghost" id="btnCopyReport" type="button">Copiar reporte</button>
+      </div>
+      <div class="validation-grid" aria-live="polite">
+        <div class="validation-box"><strong id="validOkCount">0</strong>Correctas</div>
+        <div class="validation-box"><strong id="validWarnCount">0</strong>Advertencias</div>
+        <div class="validation-box"><strong id="validErrorCount">0</strong>Errores</div>
+        <div class="validation-box"><strong id="validDetectedCount">0</strong>Preguntas detectadas</div>
+      </div>
+      <div id="validationResults" class="validation-list">
+        <div class="validation-item warn"><strong>Sin verificar todavía</strong>Pegue o escriba el banco de preguntas y presione “Verificar contenido”.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Vista previa del paquete</h2>
+      <textarea id="outputPreview" class="output" spellcheck="false" readonly></textarea>
+      <div class="toolbar">
+        <button class="secondary" id="btnCopyPreview" type="button">Copiar vista previa</button>
+        <button class="ghost" id="btnValidate" type="button">Verificar banco</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong id="countQuestions">0</strong>Total</div>
+        <div class="stat"><strong id="countMC">0</strong>MC</div>
+        <div class="stat"><strong id="countTF">0</strong>TF</div>
+        <div class="stat"><strong id="countFIB">0</strong>FIB</div>
+        <div class="stat"><strong id="countSA">0</strong>SA</div>
+        <div class="stat"><strong id="countESSAY">0</strong>Ensayo</div>
+      </div>
+    </section>
+
+    <section class="card full">
+      <h2>Notas de compatibilidad</h2>
+      <p>Esta versión genera un paquete <strong>QTI 2.1</strong> con la estructura que Blackboard Ultra aceptó en las pruebas realizadas: <code>imsmanifest.xml</code> en la raíz del ZIP y los ítems dentro de la carpeta <code>items/</code>.</p>
+      <p>Para importar: descarga el archivo <code>.zip</code> generado por esta página y súbelo en Blackboard Ultra desde <strong>Manage Banks</strong> usando la opción de importar paquete QTI. No cambies manualmente la extensión del archivo y no comprimas el XML por separado.</p>
+      <p><strong>Importante:</strong> <code>MA</code> y <code>MATCH</code> se desactivaron en esta versión estable porque el paquete básico sin esos tipos fue el que importó correctamente. Se pueden trabajar luego como versión experimental separada.</p>
+    </section>
+  </main>
+
+  <footer>UCAN QTI 2.1 | Generador local: no envía datos a internet.</footer>
+
+  <script>
+    const POINTS_PER_QUESTION = 1;
+    const SUPPORTED_TYPES = ['MC', 'TF', 'FIB', 'SA', 'ESSAY'];
+    const BLOCKED_TYPES = ['MA', 'MATCH'];
+    const MAX_CHARS = 50000;
+    let currentPackage = null;
+
+    function escapeXML(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
+    function setMessage(type, text) {
+      const message = document.getElementById('message');
+      message.textContent = '';
+      const div = document.createElement('div');
+      div.className = type;
+      div.textContent = text;
+      message.appendChild(div);
+    }
+
+    function normalizeLine(line) { return line.replace(/\r/g, '').trim(); }
+
+    function splitBlocks(text) {
+      return text.replace(/\r\n/g, '\n').split(/\n\s*\n+/).map(b => b.trim()).filter(Boolean);
+    }
+
+    function sanitizeFileName(name, extension) {
+      const cleaned = String(name || 'UCAN_QTI21_Blackboard')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9_-]/g, '_')
+        .replace(/_+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .substring(0, 50) || 'UCAN_QTI21_Blackboard';
+      return `${cleaned}.${extension}`;
+    }
+
+    function parseHeader(line, index) {
+      const clean = line.trim();
+      const typeMatch = clean.match(/^(MC|TF|MA|FIB|SA|ESSAY|MATCH)\s+(.+)$/i);
+      let type = 'MC';
+      let question = clean;
+      if (typeMatch) {
+        type = typeMatch[1].toUpperCase();
+        question = typeMatch[2].trim();
+      }
+      if (BLOCKED_TYPES.includes(type)) {
+        throw new Error(`Pregunta ${index + 1}: el tipo ${type} está desactivado en esta versión estable. Use MC, TF, FIB, SA o ESSAY.`);
+      }
+      if (!SUPPORTED_TYPES.includes(type)) {
+        throw new Error(`Pregunta ${index + 1}: tipo no compatible (${type}). Use MC, TF, FIB, SA o ESSAY.`);
+      }
+      question = question.replace(/^\d+\.\s*/, '').trim();
+      if (!question) throw new Error(`Pregunta ${index + 1}: el enunciado está vacío.`);
+      return { type, question };
+    }
+
+    function parseOptionLine(line, qIndex) {
+      let isCorrect = false;
+      let working = line.trim();
+      if (working.startsWith('*')) {
+        isCorrect = true;
+        working = working.slice(1).trim();
+      }
+      const match = working.match(/^([A-Z])\.\s*(.+)$/i);
+      if (!match) throw new Error(`Pregunta ${qIndex + 1}: la opción "${line}" debe usar formato A. Texto.`);
+      return { ident: match[1].toUpperCase(), text: match[2].trim(), isCorrect };
+    }
+
+    function parseChoiceQuestion(lines, type, qIndex) {
+      const options = lines.map(line => parseOptionLine(line, qIndex));
+      if (options.length < 2) throw new Error(`Pregunta ${qIndex + 1}: debe incluir al menos dos opciones.`);
+      const correct = options.filter(o => o.isCorrect);
+      if (correct.length !== 1) throw new Error(`Pregunta ${qIndex + 1}: ${type} requiere exactamente una respuesta correcta marcada con *.`);
+
+      if (type === 'TF') {
+        const labels = options.map(o => o.text.toLowerCase());
+        const valid = labels.some(t => ['verdadero','true','cierto'].includes(t)) && labels.some(t => ['falso','false'].includes(t));
+        if (!valid) throw new Error(`Pregunta ${qIndex + 1}: TF debe tener opciones Verdadero/Falso o True/False.`);
+      }
+      return options;
+    }
+
+    function parseTextAnswers(lines, type, qIndex) {
+      const answers = lines.map(l => l.trim()).filter(Boolean).map(l => l.startsWith('*') ? l.slice(1).trim() : l.trim()).filter(Boolean);
+      if (type === 'FIB' && answers.length < 1) {
+        throw new Error(`Pregunta ${qIndex + 1}: FIB requiere al menos una respuesta aceptada debajo de la pregunta.`);
+      }
+      return answers;
+    }
+
+    function parseQuestionBlock(block, index) {
+      const rawLines = block.split('\n').map(normalizeLine).filter(Boolean);
+      if (rawLines.length < 1) throw new Error(`Pregunta ${index + 1}: bloque vacío.`);
+      const { type, question } = parseHeader(rawLines[0], index);
+      const body = rawLines.slice(1);
+
+      if (['MC', 'TF'].includes(type)) {
+        return { number: index + 1, type, question, options: parseChoiceQuestion(body, type, index) };
+      }
+      if (type === 'FIB') {
+        return { number: index + 1, type, question, answers: parseTextAnswers(body, type, index) };
+      }
+      if (type === 'SA' || type === 'ESSAY') {
+        return { number: index + 1, type, question, answers: [] };
+      }
+      throw new Error(`Pregunta ${index + 1}: tipo no procesable.`);
+    }
+
+    function getItems() {
+      const input = document.getElementById('inputText').value.trim();
+      if (!input) throw new Error('Pega primero las preguntas en el área de texto.');
+      if (input.length > MAX_CHARS) throw new Error('El banco es demasiado extenso. Divida las preguntas en partes más pequeñas.');
+      const blocks = splitBlocks(input);
+      if (!blocks.length) throw new Error('No se detectaron preguntas. Verifique que haya una línea en blanco entre cada pregunta.');
+      return blocks.map(parseQuestionBlock);
+    }
+
+    function choiceIdentifier(letter) {
+      return `choice_${letter}`;
+    }
+
+    function buildChoiceItem(item) {
+      const itemId = `item${item.number}`;
+      const correct = item.options.find(o => o.isCorrect);
+      const choicesXML = item.options.map(option => `      <simpleChoice identifier="${choiceIdentifier(option.ident)}">${escapeXML(option.text)}</simpleChoice>`).join('\n');
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="${itemId}" title="Pregunta ${item.number} - ${item.type}" adaptive="false" timeDependent="false">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">
+    <correctResponse>
+      <value>${choiceIdentifier(correct.ident)}</value>
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+    <defaultValue><value>0</value></defaultValue>
+  </outcomeDeclaration>
+  <itemBody>
+    <p>${escapeXML(item.question)}</p>
+    <choiceInteraction responseIdentifier="RESPONSE" shuffle="false" maxChoices="1">
+${choicesXML}
+    </choiceInteraction>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />
+</assessmentItem>`;
+    }
+
+    function buildFibBody(question) {
+      const escapedQuestion = escapeXML(question);
+      const blanks = ['_____', '____', '___', '__'];
+      for (const blank of blanks) {
+        if (escapedQuestion.includes(blank)) {
+          return escapedQuestion.replace(blank, '<textEntryInteraction responseIdentifier="RESPONSE" expectedLength="30" />');
+        }
+      }
+      return `${escapedQuestion} <textEntryInteraction responseIdentifier="RESPONSE" expectedLength="30" />`;
+    }
+
+    function buildFibItem(item) {
+      const itemId = `item${item.number}`;
+      const correctValues = item.answers.map(answer => `      <value>${escapeXML(answer)}</value>`).join('\n');
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="${itemId}" title="Pregunta ${item.number} - FIB" adaptive="false" timeDependent="false">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string">
+    <correctResponse>
+${correctValues}
+    </correctResponse>
+  </responseDeclaration>
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+    <defaultValue><value>0</value></defaultValue>
+  </outcomeDeclaration>
+  <itemBody>
+    <p>${buildFibBody(item.question)}</p>
+  </itemBody>
+  <responseProcessing template="http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct" />
+</assessmentItem>`;
+    }
+
+    function buildEssayItem(item) {
+      const itemId = `item${item.number}`;
+      const expectedLines = item.type === 'SA' ? 5 : 12;
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="${itemId}" title="Pregunta ${item.number} - ${item.type}" adaptive="false" timeDependent="false">
+  <responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string" />
+  <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+    <defaultValue><value>0</value></defaultValue>
+  </outcomeDeclaration>
+  <itemBody>
+    <p>${escapeXML(item.question)}</p>
+    <extendedTextInteraction responseIdentifier="RESPONSE" expectedLines="${expectedLines}" />
+  </itemBody>
+</assessmentItem>`;
+    }
+
+    function buildQTIItem(item) {
+      if (item.type === 'MC' || item.type === 'TF') return buildChoiceItem(item);
+      if (item.type === 'FIB') return buildFibItem(item);
+      if (item.type === 'SA' || item.type === 'ESSAY') return buildEssayItem(item);
+      throw new Error(`Tipo no soportado: ${item.type}`);
+    }
+
+    function buildManifest(items) {
+      const resources = items.map(item => `    <resource identifier="res_item${item.number}" type="imsqti_item_xmlv2p1" href="items/item${item.number}.xml">
+      <file href="items/item${item.number}.xml" />
+    </resource>`).join('\n');
+      return `<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="UCAN_QTI21_BLACKBOARD" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 http://www.imsglobal.org/xsd/imscp_v1p1.xsd">
+  <metadata>
+    <schema>QTI Package</schema>
+    <schemaversion>2.1</schemaversion>
+  </metadata>
+  <organizations />
+  <resources>
+${resources}
+  </resources>
+</manifest>`;
+    }
+
+    function buildPackage(items) {
+      const files = {};
+      files['imsmanifest.xml'] = buildManifest(items);
+      items.forEach(item => {
+        files[`items/item${item.number}.xml`] = buildQTIItem(item);
+      });
+      return files;
+    }
+
+    function buildPreview(files, items) {
+      const fileList = Object.keys(files).map(name => `- ${name}`).join('\n');
+      const firstItem = files['items/item1.xml'] || '';
+      return `PAQUETE QTI 2.1 GENERADO\n\nTotal de preguntas: ${items.length}\n\nArchivos incluidos:\n${fileList}\n\n--- imsmanifest.xml ---\n${files['imsmanifest.xml']}\n\n--- Vista previa del primer ítem ---\n${firstItem}`;
+    }
+
+
+
+    function addReportMessage(report, level, title, detail, blockNumber = null) {
+      report[level].push({ level, title, detail, blockNumber });
+    }
+
+    function detectPossibleHeaders(text) {
+      const matches = text.match(/(?:^|\n)\s*(MC|TF|MA|FIB|SA|ESSAY|MATCH)\s+\d+\./gi);
+      return matches ? matches.length : 0;
+    }
+
+    function analyzeBlock(block, index, report) {
+      const rawLines = block.split('\n').map(normalizeLine).filter(Boolean);
+      const blockNumber = index + 1;
+
+      if (!rawLines.length) {
+        addReportMessage(report, 'errors', `Bloque ${blockNumber}: vacío`, 'Elimine espacios o líneas vacías innecesarias.', blockNumber);
+        return;
+      }
+
+      const header = rawLines[0];
+      const explicitType = header.match(/^(MC|TF|MA|FIB|SA|ESSAY|MATCH)\s+(.+)$/i);
+      const weakType = header.match(/^([A-Z]+)\s+/i);
+      const nestedHeaders = rawLines.slice(1).filter(line => /^(MC|TF|MA|FIB|SA|ESSAY|MATCH)\s+\d+\./i.test(line));
+
+      if (nestedHeaders.length) {
+        addReportMessage(report, 'warnings', `Pregunta ${blockNumber}: posible falta de línea en blanco`, 'Se detectó otra pregunta dentro del mismo bloque. Deje una línea en blanco entre cada pregunta.', blockNumber);
+      }
+
+      if (!explicitType) {
+        if (weakType && !SUPPORTED_TYPES.includes(weakType[1].toUpperCase()) && !BLOCKED_TYPES.includes(weakType[1].toUpperCase())) {
+          addReportMessage(report, 'errors', `Pregunta ${blockNumber}: tipo desconocido`, `El tipo “${weakType[1].toUpperCase()}” no es compatible. Use MC, TF, FIB, SA o ESSAY.`, blockNumber);
+          return;
+        }
+        addReportMessage(report, 'warnings', `Pregunta ${blockNumber}: no tiene tipo explícito`, 'La herramienta la interpretará como MC. Se recomienda comenzar con MC, TF, FIB, SA o ESSAY.', blockNumber);
+      }
+
+      const type = explicitType ? explicitType[1].toUpperCase() : 'MC';
+
+      if (BLOCKED_TYPES.includes(type)) {
+        addReportMessage(report, 'errors', `Pregunta ${blockNumber}: ${type} no está disponible`, `${type} está desactivado en esta versión estable porque puede fallar al importarse en Blackboard Ultra.`, blockNumber);
+        return;
+      }
+
+      if (!SUPPORTED_TYPES.includes(type)) {
+        addReportMessage(report, 'errors', `Pregunta ${blockNumber}: tipo no compatible`, 'Use MC, TF, FIB, SA o ESSAY.', blockNumber);
+        return;
+      }
+
+      try {
+        const parsed = parseQuestionBlock(block, index);
+        if (parsed.type === 'MC' || parsed.type === 'TF') {
+          const letters = parsed.options.map(option => option.ident);
+          const duplicated = letters.filter((letter, pos) => letters.indexOf(letter) !== pos);
+          if (duplicated.length) {
+            addReportMessage(report, 'warnings', `Pregunta ${blockNumber}: letras repetidas`, `Revise opciones repetidas: ${[...new Set(duplicated)].join(', ')}.`, blockNumber);
+          }
+          addReportMessage(report, 'oks', `Pregunta ${blockNumber}: ${parsed.type} válida`, 'Tiene opciones suficientes y una sola respuesta correcta marcada con *.', blockNumber);
+        } else if (parsed.type === 'FIB') {
+          if (!parsed.question.includes('_____')) {
+            addReportMessage(report, 'warnings', `Pregunta ${blockNumber}: FIB sin línea visible`, 'Se recomienda usar _____ en el enunciado para indicar dónde va la respuesta.', blockNumber);
+          }
+          addReportMessage(report, 'oks', `Pregunta ${blockNumber}: FIB válida`, 'Tiene al menos una respuesta aceptada.', blockNumber);
+        } else if (parsed.type === 'SA') {
+          addReportMessage(report, 'oks', `Pregunta ${blockNumber}: SA válida`, 'Se generará como respuesta corta o texto extendido en QTI 2.1.', blockNumber);
+        } else if (parsed.type === 'ESSAY') {
+          addReportMessage(report, 'oks', `Pregunta ${blockNumber}: ESSAY válida`, 'Se generará como pregunta de ensayo en QTI 2.1.', blockNumber);
+        }
+      } catch (error) {
+        addReportMessage(report, 'errors', `Pregunta ${blockNumber}: requiere corrección`, error.message, blockNumber);
+      }
+    }
+
+    function buildValidationReport() {
+      const text = document.getElementById('inputText').value.trim();
+      const report = { oks: [], warnings: [], errors: [], detected: 0, text: '' };
+
+      if (!text) {
+        addReportMessage(report, 'errors', 'No hay contenido', 'Pegue o escriba el banco de preguntas antes de verificar.');
+        return report;
+      }
+
+      if (text.length > MAX_CHARS) {
+        addReportMessage(report, 'errors', 'Contenido demasiado extenso', 'Divida el banco de preguntas en partes más pequeñas antes de generar el paquete.');
+      }
+
+      const blocks = splitBlocks(text);
+      report.detected = blocks.length;
+      const possibleHeaders = detectPossibleHeaders(text);
+
+      if (possibleHeaders > blocks.length) {
+        addReportMessage(report, 'warnings', 'Posible separación incorrecta', `Se detectaron ${possibleHeaders} encabezados de preguntas, pero solo ${blocks.length} bloques. Deje una línea en blanco entre cada pregunta.`);
+      }
+
+      if (!blocks.length) {
+        addReportMessage(report, 'errors', 'No se detectaron preguntas', 'Revise que el banco tenga contenido organizado por bloques.');
+        return report;
+      }
+
+      blocks.forEach((block, index) => analyzeBlock(block, index, report));
+      return report;
+    }
+
+    function reportToText(report) {
+      const lines = [];
+      lines.push('REPORTE DE VERIFICACIÓN - QTI 2.1 BLACKBOARD');
+      lines.push(`Preguntas detectadas: ${report.detected}`);
+      lines.push(`Correctas: ${report.oks.length}`);
+      lines.push(`Advertencias: ${report.warnings.length}`);
+      lines.push(`Errores: ${report.errors.length}`);
+      lines.push('');
+
+      const groups = [
+        ['ERRORES', report.errors],
+        ['ADVERTENCIAS', report.warnings],
+        ['CORRECTAS', report.oks]
+      ];
+
+      groups.forEach(([label, items]) => {
+        lines.push(label);
+        if (!items.length) {
+          lines.push('- Ninguno');
+        } else {
+          items.forEach(item => lines.push(`- ${item.title}: ${item.detail}`));
+        }
+        lines.push('');
+      });
+      return lines.join('\n');
+    }
+
+    function renderValidationReport(report) {
+      document.getElementById('validOkCount').textContent = report.oks.length;
+      document.getElementById('validWarnCount').textContent = report.warnings.length;
+      document.getElementById('validErrorCount').textContent = report.errors.length;
+      document.getElementById('validDetectedCount').textContent = report.detected;
+
+      const container = document.getElementById('validationResults');
+      container.textContent = '';
+      const ordered = [
+        ...report.errors.map(item => ({ ...item, css: 'error' })),
+        ...report.warnings.map(item => ({ ...item, css: 'warn' })),
+        ...report.oks.map(item => ({ ...item, css: 'ok' }))
+      ];
+
+      if (!ordered.length) {
+        const div = document.createElement('div');
+        div.className = 'validation-item ok';
+        div.innerHTML = '<strong>Todo se ve correcto</strong>No se encontraron errores ni advertencias.';
+        container.appendChild(div);
+        return;
+      }
+
+      ordered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = `validation-item ${item.css}`;
+        const strong = document.createElement('strong');
+        strong.textContent = item.title;
+        const detail = document.createElement('span');
+        detail.textContent = item.detail;
+        div.appendChild(strong);
+        div.appendChild(detail);
+        container.appendChild(div);
+      });
+    }
+
+    function runValidationReport(showMessage = true) {
+      const report = buildValidationReport();
+      renderValidationReport(report);
+      if (showMessage) {
+        if (report.errors.length) {
+          setMessage('error', `Se encontraron ${report.errors.length} error(es). Corrija el contenido antes de generar el ZIP.`);
+        } else if (report.warnings.length) {
+          setMessage('warn', `El contenido no tiene errores críticos, pero tiene ${report.warnings.length} advertencia(s). Revise antes de importar.`);
+        } else {
+          setMessage('success', `Contenido verificado correctamente. ${report.oks.length} pregunta(s) listas para generar el ZIP.`);
+        }
+      }
+      return report;
+    }
+
+    function copyValidationReport() {
+      const report = buildValidationReport();
+      renderValidationReport(report);
+      const text = reportToText(report);
+      navigator.clipboard.writeText(text).then(() => {
+        setMessage('success', 'Reporte de verificación copiado al portapapeles.');
+      }).catch(() => {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        setMessage('success', 'Reporte de verificación copiado al portapapeles.');
+      });
+    }
+
+    function generatePackage() {
+      const output = document.getElementById('outputPreview');
+      output.value = '';
+      currentPackage = null;
+      const report = runValidationReport(false);
+      if (report.errors.length) {
+        setMessage('error', `No se generó el ZIP porque hay ${report.errors.length} error(es) en el contenido pegado.`);
+        updateStats([]);
+        return null;
+      }
+      try {
+        const items = getItems();
+        const files = buildPackage(items);
+        currentPackage = { files, items };
+        output.value = buildPreview(files, items);
+        updateStats(items);
+        setMessage('success', `Paquete QTI 2.1 generado correctamente con ${items.length} preguntas. Use el botón “Descargar ZIP QTI 2.1”.`);
+        return currentPackage;
+      } catch (error) {
+        updateStats([]);
+        setMessage('error', error.message);
+        return null;
+      }
+    }
+
+    function validateOnly() {
+      const report = runValidationReport(true);
+      if (!report.errors.length) {
+        try {
+          const items = getItems();
+          updateStats(items);
+        } catch (error) {
+          updateStats([]);
+        }
+      } else {
+        updateStats([]);
+      }
+    }
+
+    function updateStats(items) {
+      const byType = Object.fromEntries(SUPPORTED_TYPES.map(t => [t, 0]));
+      items.forEach(i => { byType[i.type] = (byType[i.type] || 0) + 1; });
+      document.getElementById('countQuestions').textContent = items.length;
+      document.getElementById('countMC').textContent = byType.MC || 0;
+      document.getElementById('countTF').textContent = byType.TF || 0;
+      document.getElementById('countFIB').textContent = byType.FIB || 0;
+      document.getElementById('countSA').textContent = byType.SA || 0;
+      document.getElementById('countESSAY').textContent = byType.ESSAY || 0;
+    }
+
+    function downloadZipPackage() {
+      const pkg = currentPackage || generatePackage();
+      if (!pkg) return;
+      const zipBlob = createZipBlob(pkg.files);
+      const filename = sanitizeFileName(document.getElementById('packageName').value, 'zip');
+      downloadBlob(filename, zipBlob);
+      setMessage('success', `Archivo ${filename} descargado. Importe este ZIP directamente en Blackboard Ultra.`);
+    }
+
+    function downloadReadme() {
+      const guide = `INSTRUCCIONES QTI 2.1 PARA BLACKBOARD ULTRA\n\n1. Escriba o pegue las preguntas en la herramienta.\n2. Use solo los tipos estables: MC, TF, FIB, SA y ESSAY.\n3. Presione “Generar paquete”.\n4. Presione “Descargar ZIP QTI 2.1”.\n5. En Blackboard Ultra, entre a Manage Banks.\n6. Seleccione la opción de importar paquete QTI.\n7. Suba el archivo ZIP descargado.\n\nNo cambie manualmente la extensión del archivo. No comprima archivos adicionales. El ZIP generado ya contiene imsmanifest.xml y la carpeta items/.\n\nNota: MA y MATCH están desactivados en esta versión estable porque pueden provocar errores de conversión en Blackboard Ultra.`;
+      downloadFile('INSTRUCCIONES_QTI21_Blackboard.txt', guide, 'text/plain;charset=utf-8');
+    }
+
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
+      downloadBlob(filename, blob);
+    }
+
+    function downloadBlob(filename, blob) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function copyPreview() {
+      if (!document.getElementById('outputPreview').value.trim()) generatePackage();
+      const output = document.getElementById('outputPreview');
+      output.select();
+      document.execCommand('copy');
+      setMessage('success', 'Vista previa copiada al portapapeles.');
+    }
+
+    function loadExample() {
+      document.getElementById('inputText').value = `MC 1. ¿Cuál es la mejor definición de inteligencia artificial en educación?
+A. Uso de computadoras sin interacción humana
+*B. Capacidad de sistemas para realizar tareas que requieren inteligencia humana
+C. Uso exclusivo de robots en el aula
+D. Sustitución total del docente
+
+TF 2. La inteligencia artificial permite personalizar el aprendizaje según las necesidades del estudiante.
+*A. Verdadero
+B. Falso
+
+FIB 3. La inteligencia artificial permite ______ el aprendizaje.
+*personalizar
+*adaptar
+
+SA 4. Defina brevemente qué es un algoritmo.
+
+ESSAY 5. Explique dos implicaciones éticas del uso de IA en educación.`;
+      generatePackage();
+    }
+
+    function clearAll() {
+      document.getElementById('inputText').value = '';
+      document.getElementById('outputPreview').value = '';
+      document.getElementById('message').textContent = '';
+      document.getElementById('validOkCount').textContent = '0';
+      document.getElementById('validWarnCount').textContent = '0';
+      document.getElementById('validErrorCount').textContent = '0';
+      document.getElementById('validDetectedCount').textContent = '0';
+      const container = document.getElementById('validationResults');
+      container.textContent = '';
+      const div = document.createElement('div');
+      div.className = 'validation-item warn';
+      div.innerHTML = '<strong>Sin verificar todavía</strong>Pegue o escriba el banco de preguntas y presione “Verificar contenido”.';
+      container.appendChild(div);
+      currentPackage = null;
+      updateStats([]);
+    }
+
+    function makeCrcTable() {
+      const table = new Uint32Array(256);
+      for (let n = 0; n < 256; n++) {
+        let c = n;
+        for (let k = 0; k < 8; k++) {
+          c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+        }
+        table[n] = c >>> 0;
+      }
+      return table;
+    }
+
+    const CRC_TABLE = makeCrcTable();
+
+    function crc32(bytes) {
+      let crc = 0 ^ (-1);
+      for (let i = 0; i < bytes.length; i++) {
+        crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ bytes[i]) & 0xFF];
+      }
+      return (crc ^ (-1)) >>> 0;
+    }
+
+    function dosDateTime(date) {
+      const year = Math.max(date.getFullYear(), 1980);
+      const dosTime = (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2);
+      const dosDate = ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate();
+      return { dosDate, dosTime };
+    }
+
+    function uint16(value) {
+      const arr = new Uint8Array(2);
+      const view = new DataView(arr.buffer);
+      view.setUint16(0, value, true);
+      return arr;
+    }
+
+    function uint32(value) {
+      const arr = new Uint8Array(4);
+      const view = new DataView(arr.buffer);
+      view.setUint32(0, value >>> 0, true);
+      return arr;
+    }
+
+    function concatArrays(arrays) {
+      const total = arrays.reduce((sum, arr) => sum + arr.length, 0);
+      const result = new Uint8Array(total);
+      let offset = 0;
+      arrays.forEach(arr => {
+        result.set(arr, offset);
+        offset += arr.length;
+      });
+      return result;
+    }
+
+    function createZipBlob(files) {
+      const encoder = new TextEncoder();
+      const now = new Date();
+      const { dosDate, dosTime } = dosDateTime(now);
+      const localParts = [];
+      const centralParts = [];
+      let offset = 0;
+      const entries = Object.entries(files);
+
+      entries.forEach(([filename, content]) => {
+        const nameBytes = encoder.encode(filename);
+        const dataBytes = encoder.encode(content);
+        const checksum = crc32(dataBytes);
+        const size = dataBytes.length;
+        const localHeader = concatArrays([
+          uint32(0x04034b50),
+          uint16(20),
+          uint16(0),
+          uint16(0),
+          uint16(dosTime),
+          uint16(dosDate),
+          uint32(checksum),
+          uint32(size),
+          uint32(size),
+          uint16(nameBytes.length),
+          uint16(0),
+          nameBytes
+        ]);
+        localParts.push(localHeader, dataBytes);
+
+        const centralHeader = concatArrays([
+          uint32(0x02014b50),
+          uint16(20),
+          uint16(20),
+          uint16(0),
+          uint16(0),
+          uint16(dosTime),
+          uint16(dosDate),
+          uint32(checksum),
+          uint32(size),
+          uint32(size),
+          uint16(nameBytes.length),
+          uint16(0),
+          uint16(0),
+          uint16(0),
+          uint16(0),
+          uint32(0),
+          uint32(offset),
+          nameBytes
+        ]);
+        centralParts.push(centralHeader);
+        offset += localHeader.length + dataBytes.length;
+      });
+
+      const centralDirectory = concatArrays(centralParts);
+      const endOfCentralDirectory = concatArrays([
+        uint32(0x06054b50),
+        uint16(0),
+        uint16(0),
+        uint16(entries.length),
+        uint16(entries.length),
+        uint32(centralDirectory.length),
+        uint32(offset),
+        uint16(0)
+      ]);
+
+      const zipBytes = concatArrays([...localParts, centralDirectory, endOfCentralDirectory]);
+      return new Blob([zipBytes], { type: 'application/zip' });
+    }
+
+    let validationTimer = null;
+    document.getElementById('btnGenerate').addEventListener('click', generatePackage);
+    document.getElementById('btnDownloadZip').addEventListener('click', downloadZipPackage);
+    document.getElementById('btnDownloadReadme').addEventListener('click', downloadReadme);
+    document.getElementById('btnLoadExample').addEventListener('click', loadExample);
+    document.getElementById('btnClear').addEventListener('click', clearAll);
+    document.getElementById('btnCopyPreview').addEventListener('click', copyPreview);
+    document.getElementById('btnValidate').addEventListener('click', validateOnly);
+    document.getElementById('btnRunCheck').addEventListener('click', () => runValidationReport(true));
+    document.getElementById('btnCopyReport').addEventListener('click', copyValidationReport);
+    document.getElementById('inputText').addEventListener('input', () => {
+      clearTimeout(validationTimer);
+      validationTimer = setTimeout(() => {
+        if (document.getElementById('inputText').value.trim()) runValidationReport(false);
+      }, 700);
+    });
+  </script>
+</body>
+</html>
