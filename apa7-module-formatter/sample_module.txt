@@ -1,0 +1,19 @@
+Introducción
+
+Este es un módulo de ejemplo para validar el formateador. El programa aplica reglas de presentación APA 7 y prepara una versión para Blackboard Ultra.
+
+Tema 1. Sistemas de información
+
+Los sistemas de información apoyan la toma de decisiones gerenciales mediante datos, procesos y tecnología (Laudon et al., 2025).
+
+Figura 1
+Ejemplo de arquitectura de un sistema
+Nota. Imagen de ejemplo.
+
+Conclusión
+
+El formato consistente facilita la lectura y la revisión académica.
+
+Referencias
+
+Laudon, K. C., Laudon, J. P., & Traver, C. G. (2025). Management information systems: Managing the digital firm (18th ed.). Pearson.
