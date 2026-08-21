@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang='es'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>APA 7 Module Formatter</title>
+  <link rel='stylesheet' href='/static/style.css'>
+</head>
+<body>
+<main class='container'>
+  <header class='hero'>
+    <p class='eyebrow'>BADM 5060 · Blackboard Ultra</p>
+    <h1>APA 7 Module Formatter</h1>
+    <p>Carga un módulo y genera una versión Word formateada, HTML listo para Blackboard y un informe automático de revisión APA 7.</p>
+  </header>
+
+  <section class='panel' aria-labelledby='upload-title'>
+    <h2 id='upload-title'>Formatear módulo</h2>
+    <form action='/format' method='post' enctype='multipart/form-data'>
+      <label for='file'>Archivo del módulo</label>
+      <input id='file' name='file' type='file' accept='.docx,.pdf,.html,.htm,.txt' required>
+      <div class='grid'>
+        <div><label for='profile'>Perfil</label><select id='profile' name='profile'><option value='blackboard' selected>Blackboard Ultra institucional</option><option value='strict'>APA 7 estricto</option></select></div>
+        <div><label for='font'>Fuente</label><select id='font' name='font'><option value='Arial' selected>Arial</option><option value='Times New Roman'>Times New Roman</option><option value='Calibri'>Calibri</option></select></div>
+        <div><label for='font_size'>Tamaño</label><select id='font_size' name='font_size'><option value='11' selected>11 pt</option><option value='12'>12 pt</option></select></div>
+      </div>
+      <button type='submit'>Formatear y revisar</button>
+    </form>
+  </section>
+
+  {% if result %}
+  <section class='panel result' aria-labelledby='result-title'>
+    <h2 id='result-title'>Resultado</h2>
+    <p><strong>Archivo:</strong> {{ result.source }}</p>
+    <p>{{ result.note }}</p>
+    <div class='downloads'>
+      <a class='button-link' href='/download/{{ result.docx }}'>Descargar Word APA 7</a>
+      <a class='button-link' href='/download/{{ result.html }}'>Descargar HTML Blackboard</a>
+      <a class='button-link' href='/download/{{ result.report }}'>Descargar informe JSON</a>
+    </div>
+    <div class='audit-grid'>
+      <section><h3>Correcto / detectado</h3>{% if result.audit.positives %}<ul>{% for item in result.audit.positives %}<li>{{ item }}</li>{% endfor %}</ul>{% else %}<p>No se detectaron elementos positivos automáticamente.</p>{% endif %}</section>
+      <section><h3>Revisar</h3>{% if result.audit.warnings %}<ul>{% for item in result.audit.warnings %}<li>{{ item }}</li>{% endfor %}</ul>{% else %}<p>No se detectaron advertencias automáticas.</p>{% endif %}</section>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class='panel'>
+    <h2>Qué automatiza</h2>
+    <ul>
+      <li>Márgenes de 1 pulgada y doble espacio.</li>
+      <li>Alineación a la izquierda y sangría de primera línea de 0.5 pulgadas.</li>
+      <li>Referencias con sangría francesa de 0.5 pulgadas.</li>
+      <li>Rótulos de figuras y tablas en formato APA.</li>
+      <li>Tablas sin cuadrícula vertical completa.</li>
+      <li>HTML con reglas de impresión para Blackboard Ultra.</li>
+      <li>Revisión básica de citas múltiples, referencias, figuras y estructura.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
